@@ -37,6 +37,16 @@ public class Member implements UserDetails {
         this.roles = roles;
     }
 
+    public void update(String nickName, String password) {
+        if (nickName != null) {
+            this.nickName = nickName;
+        }
+
+        if (password != null) {
+            this.password = password;
+        }
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return  this.roles.stream()

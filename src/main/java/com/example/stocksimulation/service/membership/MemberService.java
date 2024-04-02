@@ -4,6 +4,7 @@ import com.example.stocksimulation.domain.entity.Member;
 import com.example.stocksimulation.dto.JwtToken;
 import com.example.stocksimulation.dto.membership.MemberResponseDto;
 import com.example.stocksimulation.dto.membership.MemberSignUpDto;
+import com.example.stocksimulation.dto.membership.MemberUpdateDto;
 import com.example.stocksimulation.repository.MemberRepository;
 import com.example.stocksimulation.service.support.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service
@@ -45,5 +47,22 @@ public class MemberService {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         return jwtTokenProvider.generateToken(authentication);
+    }
+
+    @Transactional
+    public MemberUpdateDto update(MemberUpdateDto updateDto) {
+        Member member = repository.findById(updateDto.memberId())
+                .orElseThrow(NoSuchElementException::new);
+
+        member.update(updateDto.nickName(), updateDto.password());
+        return updateDto;
+    }
+
+    public Long delete(long memberId) {
+        Member target = repository.findById(memberId)
+                .orElseThrow(NoSuchElementException::new);
+
+        repository.delete(target);
+        return memberId;
     }
 }
