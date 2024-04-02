@@ -29,6 +29,9 @@ public class Member implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
+    @OneToMany
+    private List<Account> accounts = new ArrayList<>();
+
     @Builder
     public Member(String name, String email, String password, List<String> roles) {
         this.nickName = name;
