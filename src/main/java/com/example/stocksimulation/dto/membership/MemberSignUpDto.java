@@ -15,8 +15,7 @@ public record MemberSignUpDto(
         String email,
         @NotBlank(message = "Password can not be null")
         @Size(min = 4, max = 13, message = "password size must be between 4 and 13")
-        String password,
-        String role) {
+        String password) {
     public Member toEntity(String password, List<String> roles) {
         return Member.builder()
                 .name(nickName)

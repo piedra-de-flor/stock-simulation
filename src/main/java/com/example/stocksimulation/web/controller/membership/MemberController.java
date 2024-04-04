@@ -43,6 +43,7 @@ public class MemberController {
     public ResponseEntity<JwtToken> signIn(
             @Parameter(description = "로그인 요청 정보", required = true)
             @RequestBody @Validated MemberSignInDto signInDto) {
+        System.out.println("controller");
         JwtToken token = service.signIn(signInDto.email(), signInDto.password());
         return ResponseEntity.ok(token);
     }
