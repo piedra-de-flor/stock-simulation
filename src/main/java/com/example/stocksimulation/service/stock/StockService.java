@@ -3,38 +3,37 @@ package com.example.stocksimulation.service.stock;
 import com.example.stocksimulation.configuration.WebSocketClientConfig;
 import com.example.stocksimulation.service.support.WebSocketClientSessionHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.socket.client.ReactorNettyWebSocketClient;
+import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.client.WebSocketClient;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
-import reactor.core.publisher.Mono;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
-@RequiredArgsConstructor
 @Service
 public class StockService {
-    private final WebSocketStompClient webSocketStompClient;
-    private final StompSessionHandler stompSessionHandler;
+    private WebSocketSession session;
 
-    public void connectAndSendRequest() {
-        // WebSocket 서버에 연결
-        webSocketStompClient.connect("ws://ops.koreainvestment.com:21000/tryitout/H0STCNT0", stompSessionHandler);
-
+    public void connectAndSendRequest() throws IOException, ExecutionException, InterruptedException {
+        StandardWebSocketClient webSocketClient = new StandardWebSocketClient();
+        session = webSocketClient.doHandshake(new WebSocketClientSessionHandler(), "ws://ops.koreainvestment.com:21000/tryitout/H0STCNT0").get();
         System.out.println("WebSocket client connected to server.");
     }
 
-    public static void main(String[] args) {
-        WebSocketClientConfig clientConfig = new WebSocketClientConfig();
-        WebSocketStompClient webSocketStompClient = clientConfig.webSocketStompClient(clientConfig.stompSessionHandler());
-        // StockService 인스턴스 생성
-        StockService stockService = new StockService(webSocketStompClient, clientConfig.stompSessionHandler());
+    public void test() throws IOException, ExecutionException, InterruptedException {
+        connectAndSendRequest();
+    }
 
-        // WebSocket 서버에 연결하고 요청을 보내기
-        stockService.connectAndSendRequest();
-
+    public void send(String message) throws IOException {
+        if (session != null && session.isOpen()) {
+            session.sendMessage(new TextMessage(message));
+        } else {
+            System.out.println("WebSocket session is not open.");
+        }
     }
 }

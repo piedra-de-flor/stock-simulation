@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
+import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
@@ -13,17 +14,12 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 public class WebSocketClientConfig {
 
     @Bean
-    public WebSocketStompClient webSocketStompClient(StompSessionHandler stompSessionHandler) {
-        WebSocketClient webSocketClient = new StandardWebSocketClient();
-        WebSocketStompClient stompClient = new WebSocketStompClient(webSocketClient);
-        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-        stompClient.connectAsync("ws://ops.koreainvestment.com:21000/tryitout/H0STCNT0", stompSessionHandler);
-        System.out.println("web Socket connected");
-        return stompClient;
+    public WebSocketClient webSocketClient() {
+        return new StandardWebSocketClient();
     }
 
     @Bean
-    public StompSessionHandler stompSessionHandler() {
+    public WebSocketHandler webSocketHandler() {
         return new WebSocketClientSessionHandler();
     }
 }
