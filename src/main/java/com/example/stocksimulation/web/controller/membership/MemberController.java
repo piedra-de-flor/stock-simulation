@@ -1,6 +1,6 @@
 package com.example.stocksimulation.web.controller.membership;
 
-import com.example.stocksimulation.dto.JwtToken;
+import com.example.stocksimulation.dto.membership.JwtToken;
 import com.example.stocksimulation.dto.membership.MemberResponseDto;
 import com.example.stocksimulation.dto.membership.MemberSignInDto;
 import com.example.stocksimulation.dto.membership.MemberSignUpDto;

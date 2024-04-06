@@ -1,4 +1,4 @@
-package com.example.stocksimulation.dto;
+package com.example.stocksimulation.dto.membership;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

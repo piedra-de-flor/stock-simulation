@@ -1,6 +1,6 @@
 package com.example.stocksimulation.service.support;
 
-import com.example.stocksimulation.dto.JwtToken;
+import com.example.stocksimulation.dto.membership.JwtToken;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

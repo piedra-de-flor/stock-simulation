@@ -1,5 +1,10 @@
 package com.example.stocksimulation.service.support;
 
+import com.example.stocksimulation.domain.vo.WebSocketClientVO;
+import com.example.stocksimulation.domain.vo.WebSocketConnectedVO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.SimpleAsyncTaskScheduler;
@@ -14,50 +19,55 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class WebSocketClientSessionHandler extends TextWebSocketHandler {
-    private final String HEARTBEAT_MESSAGE = "HEARTBEAT";
+    private final String[] RESPONSE_KEYS = WebSocketClientVO.WEB_SOCKET_CLIENT_RESPONSE.getValue().split(WebSocketClientVO.WEB_SOCKET_CLIENT_RESPONSE_SPLITER.getValue());
     private final TaskScheduler taskScheduler = new SimpleAsyncTaskScheduler();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private WebSocketConnectedVO connectedVO;
     private WebSocketSession session;
 
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
-        // 서버로부터 받은 응답 메시지 처리
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws JsonProcessingException {
         log.info("webSocketClient : Received message from server");
-        System.out.println("Message: " + message.getPayload());
+        if (message.getPayload().startsWith("0") || message.getPayload().startsWith("1")) {
+            String[] responses = message.getPayload().split(WebSocketClientVO.WEB_SOCKET_CLIENT_RESPONSE_SPLITER.getValue());
+            String response = AES256Decryptor.decrypt(responses[3], connectedVO.getIv(), connectedVO.getKey());
+
+        } else if (message.getPayload().contains("SUBSCRIBE SUCCESS")) {
+            connectedVO = objectMapper.readValue(message.getPayload(), WebSocketConnectedVO.class);
+            JsonNode jsonNode = objectMapper.readTree(message.getPayload());
+            String msg1 = jsonNode.path("body").path("msg1").asText();
+            String iv = jsonNode.path("body").path("output").path("iv").asText();
+            String key = jsonNode.path("body").path("output").path("key").asText();
+            connectedVO = new WebSocketConnectedVO(msg1, iv, key);
+            System.out.println("Message: " + message.getPayload());
+        }
     }
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        // 연결이 성공한 후 실행할 작업 정의
+    public void afterConnectionEstablished(WebSocketSession session) {
         log.info("webSocketClient : Connected to WebSocket server");
         this.session = session;
 
-        taskScheduler.scheduleAtFixedRate(() -> {
-            try {
-                sendHeartbeat();
-                System.out.println("heart-beat");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }, 80000);
+        taskScheduler.scheduleAtFixedRate(this::sendHeartbeat, 80000);
     }
 
     @Override
-    public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-        // 전송 오류 처리
-        log.warn("webSocketClient : Transport error occurred in WebSocket session = ", exception);
+    public void handleTransportError(WebSocketSession session, Throwable exception) {
+        log.warn("webSocketClient : Transport error occurred in WebSocket session");
+        log.warn("Exception : ", exception);
     }
 
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        // 연결 종료 시 처리
-        System.out.println("Connection closed.");
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
+        log.info("webSocketClient : Connection closed.");
     }
 
-    private void sendHeartbeat() throws IOException {
-        if (session != null && session.isOpen()) {
-            session.sendMessage(new TextMessage(HEARTBEAT_MESSAGE));
-        } else {
-            System.out.println("WebSocket session is not open.");
+    private void sendHeartbeat() {
+        try {
+            session.sendMessage(new TextMessage(WebSocketClientVO.WEB_SOCKET_CLIENT_HEARTBEAT.getValue()));
+        } catch (IOException e){
+            log.warn("webSocketClient : WebSocket session is not open.");
+            log.warn("Exception : ", e);
         }
     }
 }

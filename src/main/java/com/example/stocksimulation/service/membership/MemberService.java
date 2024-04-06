@@ -1,7 +1,7 @@
 package com.example.stocksimulation.service.membership;
 
 import com.example.stocksimulation.domain.entity.Member;
-import com.example.stocksimulation.dto.JwtToken;
+import com.example.stocksimulation.dto.membership.JwtToken;
 import com.example.stocksimulation.dto.membership.MemberResponseDto;
 import com.example.stocksimulation.dto.membership.MemberSignUpDto;
 import com.example.stocksimulation.dto.membership.MemberUpdateDto;

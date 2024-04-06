@@ -7,4 +7,6 @@ import jakarta.persistence.Id;
 public class Stock {
     @Id
     private long code;
+    private int price;
+    private String name;
 }
