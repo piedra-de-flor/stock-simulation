@@ -1,21 +1,16 @@
 package com.example.stocksimulation.service.support;
 
-import org.springframework.messaging.simp.stomp.StompCommand;
-import org.springframework.messaging.simp.stomp.StompHeaders;
-import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
-import org.springframework.web.reactive.socket.WebSocketMessage;
-import org.springframework.web.socket.BinaryMessage;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 
-
+@Component
 public class WebSocketClientSessionHandler extends TextWebSocketHandler {
+    private WebSocketSession session;
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
