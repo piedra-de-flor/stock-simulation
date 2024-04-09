@@ -1,18 +1,15 @@
 package com.example.stocksimulation.web.controller.stock;
 
 import com.example.stocksimulation.domain.vo.WebSocketClientVO;
-import com.example.stocksimulation.service.stock.StockService;
+import com.example.stocksimulation.service.stock.WebSocketConnectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-
 @RequiredArgsConstructor
 @RestController
 public class StockController {
-    private final StockService service;
+    private final WebSocketConnectService service;
 
     @GetMapping("/stocks")
     public void stocks() {

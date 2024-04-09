@@ -1,10 +1,13 @@
 package com.example.stocksimulation.service.support;
 
+import com.example.stocksimulation.domain.vo.WebSocketClientNumberVO;
 import com.example.stocksimulation.domain.vo.WebSocketClientVO;
 import com.example.stocksimulation.domain.vo.WebSocketConnectedVO;
+import com.example.stocksimulation.service.stock.StockService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.SimpleAsyncTaskScheduler;
@@ -16,10 +19,11 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
 
+@RequiredArgsConstructor
 @Slf4j
 @Component
 public class WebSocketClientSessionHandler extends TextWebSocketHandler {
-    private final String[] RESPONSE_KEYS = WebSocketClientVO.WEB_SOCKET_CLIENT_RESPONSE.getValue().split(WebSocketClientVO.WEB_SOCKET_CLIENT_RESPONSE_SPLITER.getValue());
+    private final StockService service;
     private final TaskScheduler taskScheduler = new SimpleAsyncTaskScheduler();
     private final ObjectMapper objectMapper = new ObjectMapper();
     private WebSocketConnectedVO connectedVO;
@@ -30,8 +34,11 @@ public class WebSocketClientSessionHandler extends TextWebSocketHandler {
         log.info("webSocketClient : Received message from server");
         if (message.getPayload().startsWith("0") || message.getPayload().startsWith("1")) {
             String[] responses = message.getPayload().split(WebSocketClientVO.WEB_SOCKET_CLIENT_RESPONSE_SPLITER.getValue());
-            String response = AES256Decryptor.decrypt(responses[3], connectedVO.getIv(), connectedVO.getKey());
+            String[] response = responses[WebSocketClientNumberVO.INDEX_OF_RESPONSE.getValue()].split(WebSocketClientVO.WEB_SOCKET_CLIENT_PRICE_SPLITER.getValue());
+            String code = response[WebSocketClientNumberVO.INDEX_OF_CODE.getValue()];
+            String price = response[WebSocketClientNumberVO.INDEX_OF_PRICE.getValue()];
 
+            service.updateStockPrice(code, price);
         } else if (message.getPayload().contains("SUBSCRIBE SUCCESS")) {
             connectedVO = objectMapper.readValue(message.getPayload(), WebSocketConnectedVO.class);
             JsonNode jsonNode = objectMapper.readTree(message.getPayload());

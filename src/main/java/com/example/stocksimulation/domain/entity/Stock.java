@@ -6,7 +6,11 @@ import jakarta.persistence.Id;
 @Entity
 public class Stock {
     @Id
-    private long code;
+    private String code;
     private int price;
     private String name;
+
+    public void updatePrice(int price) {
+        this.price = price;
+    }
 }
