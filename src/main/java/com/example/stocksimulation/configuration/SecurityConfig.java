@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/sign-in", "/sign-up").permitAll()
+                        .requestMatchers("/sign-in", "/sign-up", "/client/stocks").permitAll()
                         .anyRequest().hasRole("USER")
                 )
                 .addFilterBefore(new JwtAuthFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class).build();

@@ -1,8 +1,9 @@
 package com.example.stocksimulation.service.stock;
 
 import com.example.stocksimulation.domain.vo.WebSocketClientVO;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketHandler;
@@ -13,12 +14,16 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
 public class WebSocketConnectService {
     private final String socketUrl = WebSocketClientVO.WEB_SOCKET_CLIENT_URL.getValue();
     private final WebSocketHandler handler;
     private WebSocketSession session;
+
+    @Autowired
+    public WebSocketConnectService(@Qualifier("serverToApiHandler")WebSocketHandler handler) {
+        this.handler = handler;
+    }
 
     public void connect() {
         try {

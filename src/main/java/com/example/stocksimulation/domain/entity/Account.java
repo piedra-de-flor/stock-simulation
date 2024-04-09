@@ -3,6 +3,7 @@ package com.example.stocksimulation.domain.entity;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Entity
 public class Account {
@@ -12,5 +13,5 @@ public class Account {
 
     private long money;
     @OneToMany
-    private List<Stock> stocks;
+    private Map<Stock, Integer> stocks;
 }

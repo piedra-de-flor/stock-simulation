@@ -21,8 +21,8 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Slf4j
-@Component
-public class WebSocketClientSessionHandler extends TextWebSocketHandler {
+@Component("serverToApiHandler")
+public class WebSocketServerToApiHandler extends TextWebSocketHandler {
     private final StockService service;
     private final TaskScheduler taskScheduler = new SimpleAsyncTaskScheduler();
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -38,7 +38,7 @@ public class WebSocketClientSessionHandler extends TextWebSocketHandler {
             String code = response[WebSocketClientNumberVO.INDEX_OF_CODE.getValue()];
             String price = response[WebSocketClientNumberVO.INDEX_OF_PRICE.getValue()];
 
-            service.updateStockPrice(code, price);
+            service.updateStockPrice(code, Integer.parseInt(price));
         } else if (message.getPayload().contains("SUBSCRIBE SUCCESS")) {
             connectedVO = objectMapper.readValue(message.getPayload(), WebSocketConnectedVO.class);
             JsonNode jsonNode = objectMapper.readTree(message.getPayload());
