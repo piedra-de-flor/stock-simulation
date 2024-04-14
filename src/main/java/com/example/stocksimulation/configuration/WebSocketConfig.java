@@ -20,6 +20,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketHandler, "/client/stocks").setAllowedOrigins("*");
+        registry.addHandler(webSocketHandler, "/stocks-info").setAllowedOrigins("*");
     }
 }
