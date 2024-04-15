@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Stock {
     @Id
     private String code;
-    private int price;
+    private long price;
     private String name;
 
     public void updatePrice(int price) {

@@ -1,10 +1,15 @@
 package com.example.stocksimulation.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Entity
 public class Account {
     @Id
@@ -12,6 +17,15 @@ public class Account {
     private long id;
 
     private long money;
-    @OneToMany
-    private Map<Stock, Integer> stocks;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @OneToMany(mappedBy = "account")
+    private List<Trade> trades;
+
+    public void buy(long price) {
+        this.money -= price;
+    }
 }

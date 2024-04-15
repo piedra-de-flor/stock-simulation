@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +45,6 @@ public class MemberController {
     public ResponseEntity<JwtToken> signIn(
             @Parameter(description = "로그인 요청 정보", required = true)
             @RequestBody @Validated MemberSignInDto signInDto) {
-        System.out.println("controller");
         JwtToken token = service.signIn(signInDto.email(), signInDto.password());
         return ResponseEntity.ok(token);
     }
@@ -70,5 +71,19 @@ public class MemberController {
             @RequestParam Long memberId) {
         long response = service.delete(memberId);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/your-endpoint")
+    public String yourMethod() {
+        // 현재 사용자의 인증 객체를 가져옴
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // 사용자의 이름을 가져옴
+        String memberId = authentication.getName();
+
+        // memberId를 사용하여 원하는 작업 수행
+        // 예를 들어, memberId로 회원 정보를 가져오거나 다른 작업을 수행할 수 있음
+
+        return "Member ID: " + memberId;
     }
 }
