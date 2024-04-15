@@ -1,6 +1,7 @@
 package com.example.stocksimulation.domain.entity;
 
 import com.example.stocksimulation.domain.vo.TradeType;
+import com.example.stocksimulation.domain.vo.TradeVO;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -47,7 +48,7 @@ public class Account {
         int quantity = sellTrade.getQuantity();
 
         for (Trade trade : sells) {
-            if (quantity <= 0) {
+            if (quantity <= TradeVO.EMPTY_TRADE.getQuantity()) {
                 break;
             }
 
@@ -56,7 +57,7 @@ public class Account {
             if (tradeQuantity >= quantity) {
                 trade.sell(quantity);
                 this.money += quantity * sellTrade.getStock().getPrice();
-                quantity = 0;
+                quantity = TradeVO.EMPTY_TRADE.getQuantity();
             } else {
                 this.money += tradeQuantity * sellTrade.getStock().getPrice();
                 quantity -= tradeQuantity;
