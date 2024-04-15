@@ -27,6 +27,9 @@ public class Account {
     @OneToMany(mappedBy = "account")
     private List<Trade> trades;
 
+    @OneToMany(mappedBy = "account")
+    private List<TradeTrace> traces;
+
     public void buy(Trade trade) {
         long priceToPayment = trade.getQuantity() * trade.getStock().getPrice();
 

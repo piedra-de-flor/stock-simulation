@@ -21,6 +21,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 @Service
 public class TradeService {
+    private final TradeTraceService traceService;
     private final TradeRepository tradeRepository;
     private final MemberRepository memberRepository;
     private final StockRepository stockRepository;
@@ -43,7 +44,6 @@ public class TradeService {
                     .build();
 
                 account.buy(trade);
-                tradeRepository.save(trade);
                 break;
             case SELL :
                 trade = Trade.builder()
@@ -55,9 +55,12 @@ public class TradeService {
 
                 account.sell(trade);
                 deleteCompletedTradesAsync();
-                tradeRepository.save(trade);
                 break;
+            default:
+                throw new IllegalArgumentException("not available trade type");
         }
+        tradeRepository.save(trade);
+        traceService.recordTrace(trade);
 
         return true;
     }
