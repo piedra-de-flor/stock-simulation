@@ -29,8 +29,9 @@ public class Member implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
-    private List<Account> accounts = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     @Builder
     public Member(String name, String email, String password, List<String> roles) {

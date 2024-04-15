@@ -1,5 +1,6 @@
 package com.example.stocksimulation.domain.entity;
 
+import com.example.stocksimulation.domain.vo.TradeType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -24,11 +25,15 @@ public class Trade {
 
     private int quantity;
 
+    @Enumerated(EnumType.STRING)
+    private TradeType tradeType;
+
     @Builder
-    public Trade(Account account, Stock stock, int quantity) {
+    public Trade(Account account, Stock stock, int quantity, TradeType tradeType) {
         this.account = account;
         this.stock = stock;
         this.quantity = quantity;
+        this.tradeType = tradeType;
     }
 
     public void sell(int quantity) {
