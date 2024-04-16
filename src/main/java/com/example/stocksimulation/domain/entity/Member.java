@@ -51,6 +51,10 @@ public class Member implements UserDetails {
         }
     }
 
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return  this.roles.stream()

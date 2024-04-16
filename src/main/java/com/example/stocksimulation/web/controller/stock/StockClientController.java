@@ -13,10 +13,10 @@ import java.util.List;
 @RestController
 public class StockClientController {
     private final StockService service;
-
+/*
     @GetMapping("/stocks-info")
     public ResponseEntity<List<StockDto>> getStocksInfo() {
         List<StockDto> response = service.readAll();
         return ResponseEntity.ok(response);
-    }
+    }*/
 }

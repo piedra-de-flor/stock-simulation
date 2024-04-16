@@ -4,9 +4,11 @@ import com.example.stocksimulation.domain.vo.TradeType;
 import com.example.stocksimulation.domain.vo.TradeVO;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -19,16 +21,21 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long money;
+    private long money = 500000;
 
     @OneToOne(mappedBy = "account")
     private Member member;
 
     @OneToMany(mappedBy = "account")
-    private List<Trade> trades;
+    private List<Trade> trades = new ArrayList<>();
 
     @OneToMany(mappedBy = "account")
-    private List<TradeTrace> traces;
+    private List<TradeTrace> traces = new ArrayList<>();
+
+    @Builder
+    public Account(Member member) {
+        this.member = member;
+    }
 
     public void buy(Trade trade) {
         long priceToPayment = trade.getQuantity() * trade.getStock().getPrice();
