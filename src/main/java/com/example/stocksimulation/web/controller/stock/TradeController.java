@@ -19,9 +19,8 @@ public class TradeController {
     @PostMapping("/buy")
     public ResponseEntity<Boolean> buy(@RequestBody TradeRequestDto dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        // 사용자의 이름을 가져옴
         String memberId = authentication.getName();
+
         boolean response = service.trade(memberId, dto, TradeType.BUY);
         return ResponseEntity.ok(response);
     }
@@ -29,9 +28,8 @@ public class TradeController {
     @PostMapping("/sell")
     public ResponseEntity<Boolean> sell(@RequestBody TradeRequestDto dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+       String memberId = authentication.getName();
 
-        // 사용자의 이름을 가져옴
-        String memberId = authentication.getName();
         boolean response = service.trade(memberId, dto, TradeType.SELL);
         return ResponseEntity.ok(response);
     }
