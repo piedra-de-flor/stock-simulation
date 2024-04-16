@@ -19,18 +19,18 @@ public class TradeController {
     @PostMapping("/buy")
     public ResponseEntity<Boolean> buy(@RequestBody TradeRequestDto dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String memberId = authentication.getName();
+        String memberEmail = authentication.getName();
 
-        boolean response = service.trade(memberId, dto, TradeType.BUY);
+        boolean response = service.trade(memberEmail, dto, TradeType.BUY);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/sell")
     public ResponseEntity<Boolean> sell(@RequestBody TradeRequestDto dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-       String memberId = authentication.getName();
+       String memberEmail = authentication.getName();
 
-        boolean response = service.trade(memberId, dto, TradeType.SELL);
+        boolean response = service.trade(memberEmail, dto, TradeType.SELL);
         return ResponseEntity.ok(response);
     }
 }

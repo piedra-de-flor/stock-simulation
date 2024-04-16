@@ -1,6 +1,7 @@
 package com.example.stocksimulation.domain.entity;
 
 import com.example.stocksimulation.domain.vo.TradeType;
+import com.example.stocksimulation.dto.trade.TradeTraceDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -39,5 +40,9 @@ public class TradeTrace {
         this.price = trade.getStock().getPrice();
         this.quantity = trade.getQuantity();
         this.tradeType = trade.getTradeType();
+    }
+
+    public TradeTraceDto toDto() {
+        return new TradeTraceDto(date, stockName, stockCode, price, quantity);
     }
 }
