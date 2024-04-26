@@ -12,6 +12,6 @@ public class Account {
     private long id;
 
     private long money;
-    @OneToMany
-    private Map<Stock, Integer> stocks;
+/*    @OneToMany
+    private Map<Stock, Integer> stocks;*/
 }
