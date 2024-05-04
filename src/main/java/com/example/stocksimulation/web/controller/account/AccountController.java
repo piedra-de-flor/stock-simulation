@@ -1,32 +1,26 @@
 package com.example.stocksimulation.web.controller.account;
 
-import com.example.stocksimulation.domain.entity.Account;
-import com.example.stocksimulation.domain.entity.Member;
-import com.example.stocksimulation.repository.AccountRepository;
-import com.example.stocksimulation.repository.MemberRepository;
+import com.example.stocksimulation.dto.account.AccountInfoDto;
+import com.example.stocksimulation.service.account.AccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @RestController
 public class AccountController {
-    private final AccountRepository repository;
-    private final MemberRepository memberRepository;
+    private final AccountService service;
 
     @PostMapping("/account")
-    public void makeAccount() {
+    public ResponseEntity<AccountInfoDto> makeAccount() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String memberId = authentication.getName();
-        Member m = memberRepository.findByEmail(memberId)
-                .orElseThrow(NoSuchElementException::new);
+        String memberEmail = authentication.getName();
 
-        Account account = new Account(m);
-        m.setAccount(account);
-        repository.save(account);
+        AccountInfoDto response = service.create(memberEmail);
+        return ResponseEntity.ok(response);
     }
 }

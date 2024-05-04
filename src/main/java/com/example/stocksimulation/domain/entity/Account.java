@@ -22,6 +22,7 @@ public class Account {
     private long id;
 
     private long money = 500000;
+    private long balance;
 
     @OneToOne(mappedBy = "account")
     private Member member;
@@ -56,6 +57,10 @@ public class Account {
                 .toList();
 
         int quantity = sellTrade.getQuantity();
+
+        if (quantity > sells.get(0).getQuantity()) {
+            throw new IllegalArgumentException("you don't have enough stocks");
+        }
 
         for (Trade trade : sells) {
             if (quantity <= TradeVO.EMPTY_TRADE.getQuantity()) {
