@@ -57,7 +57,10 @@ public class MemberController {
     public ResponseEntity<MemberUpdateDto> update(
             @Parameter(description = "수정 요소들", required = true)
             @RequestBody MemberUpdateDto updateDto) {
-        MemberUpdateDto response = service.update(updateDto);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String memberEmail = authentication.getName();
+
+        MemberUpdateDto response = service.update(updateDto, memberEmail);
         return ResponseEntity.ok(response);
     }
 
@@ -66,24 +69,11 @@ public class MemberController {
     @ApiResponse(responseCode = "400", description = "잘못된 요청 형식입니다")
     @ApiResponse(responseCode = "500", description = "내부 서버 오류 발생")
     @DeleteMapping("/member")
-    public ResponseEntity<Long> delete(
-            @Parameter(description = "삭제할 Member Id", required = true)
-            @RequestParam Long memberId) {
-        long response = service.delete(memberId);
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/your-endpoint")
-    public String yourMethod() {
-        // 현재 사용자의 인증 객체를 가져옴
+    public ResponseEntity<String> delete() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String memberEmail = authentication.getName();
 
-        // 사용자의 이름을 가져옴
-        String memberId = authentication.getName();
-
-        // memberId를 사용하여 원하는 작업 수행
-        // 예를 들어, memberId로 회원 정보를 가져오거나 다른 작업을 수행할 수 있음
-
-        return "Member ID: " + memberId;
+        String response = service.delete(memberEmail);
+        return ResponseEntity.ok(response);
     }
 }
