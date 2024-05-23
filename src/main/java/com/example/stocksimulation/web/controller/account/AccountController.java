@@ -23,4 +23,13 @@ public class AccountController {
         AccountInfoDto response = service.create(memberEmail);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/account")
+    public ResponseEntity<AccountInfoDto> read() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String memberEmail = authentication.getName();
+
+        AccountInfoDto response = service.readAccount(memberEmail);
+        return ResponseEntity.ok(response);
+    }
 }
