@@ -27,7 +27,6 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
 	// Spring Security
@@ -41,6 +40,12 @@ dependencies {
 	// Stock
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	//test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
+	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+	implementation 'org.glassfish:jakarta.el:4.0.2'
 }
 
 tasks.named('test') {

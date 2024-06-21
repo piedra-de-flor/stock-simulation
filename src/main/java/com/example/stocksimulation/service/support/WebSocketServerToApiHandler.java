@@ -62,6 +62,11 @@ public class WebSocketServerToApiHandler extends TextWebSocketHandler {
     public void handleTransportError(WebSocketSession session, Throwable exception) {
         log.warn("webSocketClient : Transport error occurred in WebSocket session");
         log.warn("Exception : ", exception);
+        try {
+            session.close();
+        } catch (IOException e) {
+            log.error("Error closing WebSocket session", e);
+        }
     }
 
     @Override

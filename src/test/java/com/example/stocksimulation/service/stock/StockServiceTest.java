@@ -35,7 +35,7 @@ public class StockServiceTest {
     }
 
     @Test
-    public void testUpdateStockPrice() {
+    public void 주식_가격_업데이트_테스트() {
         String stockCode = "AAPL";
         int currentPrice = 100;
         int newPrice = 150;
@@ -58,7 +58,7 @@ public class StockServiceTest {
     }
 
     @Test
-    public void testUpdateStockPrice_StockNotFound() {
+    public void 주식_가격_업데이트_실패_주식정보_없음_테스트() {
         String stockCode = "AAPL";
         int newPrice = 150;
 
