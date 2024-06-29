@@ -3,6 +3,7 @@ package com.example.stocksimulation.service.stock;
 import com.example.stocksimulation.domain.entity.Stock;
 import com.example.stocksimulation.dto.stock.StockDto;
 import com.example.stocksimulation.repository.StockRepository;
+import com.example.stocksimulation.service.account.WebSocketForBalance;
 import com.example.stocksimulation.service.support.WebSocketClientToServerHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class StockService {
     private final StockRepository repository;
     private final WebSocketClientToServerHandler socketServerHandler;
+    private final WebSocketForBalance socketForBalance;
 
     @Transactional
     public void updateStockPrice(String stockCode, int price) {
@@ -27,6 +29,7 @@ public class StockService {
             StockDto stockDto = stock.toDto();
             socketServerHandler.stocks.put(stockCode, stockDto);
             socketServerHandler.sendStockDtoToAllClients(stockDto);
+            socketForBalance.sendMessageToAllClients();
         }
     }
 
