@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -22,7 +22,6 @@ public class Account {
     private long id;
 
     private long money = 500000;
-    private long balance;
 
     @OneToOne(mappedBy = "account")
     private Member member;
@@ -78,5 +77,15 @@ public class Account {
                 quantity -= tradeQuantity;
             }
         }
+    }
+
+    public long calculateBalance() {
+        long balance = 0;
+
+        for (Trade trade : trades) {
+            balance += trade.getQuantity() * trade.getStock().getPrice();
+        }
+
+        return balance;
     }
 }

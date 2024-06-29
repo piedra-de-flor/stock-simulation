@@ -42,4 +42,12 @@ public class AccountService {
 
         return new AccountInfoDto(member.getNickName(), account.getMoney(), trades);
     }
+
+    public long getBalance(String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(NoSuchElementException::new);
+
+        Account account = member.getAccount();
+        return account.calculateBalance();
+    }
 }
