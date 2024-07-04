@@ -5,7 +5,7 @@ import com.example.stocksimulation.domain.entity.Member;
 import com.example.stocksimulation.domain.entity.Stock;
 import com.example.stocksimulation.domain.entity.Trade;
 import com.example.stocksimulation.domain.vo.TradeType;
-import com.example.stocksimulation.domain.vo.TradeVO;
+import com.example.stocksimulation.domain.vo.ZeroTradeQuantity;
 import com.example.stocksimulation.dto.trade.TradeRequestDto;
 import com.example.stocksimulation.repository.MemberRepository;
 import com.example.stocksimulation.repository.StockRepository;
@@ -67,7 +67,7 @@ public class TradeService {
 
     @Async
     public void deleteCompletedTradesAsync() {
-        List<Trade> completedTrades = tradeRepository.findAllByQuantity(TradeVO.EMPTY_TRADE.getQuantity());
+        List<Trade> completedTrades = tradeRepository.findAllByQuantity(ZeroTradeQuantity.EMPTY_TRADE.getQuantity());
         tradeRepository.deleteAll(completedTrades);
     }
 }

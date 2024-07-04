@@ -5,10 +5,8 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum WebSocketClientNumberVO {
-    INDEX_OF_RESPONSE(3),
-    INDEX_OF_CODE(0),
-    INDEX_OF_PRICE(2);
+public enum ZeroTradeQuantity {
+    EMPTY_TRADE(0);
 
-    private final int value;
+    private final int quantity;
 }

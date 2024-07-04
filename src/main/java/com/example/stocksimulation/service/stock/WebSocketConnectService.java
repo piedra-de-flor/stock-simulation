@@ -1,6 +1,6 @@
 package com.example.stocksimulation.service.stock;
 
-import com.example.stocksimulation.domain.vo.WebSocketClientVO;
+import com.example.stocksimulation.domain.vo.WebSocketParsingInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 @Service
 public class WebSocketConnectService {
-    private final String socketUrl = WebSocketClientVO.WEB_SOCKET_CLIENT_URL.getValue();
+    private final String socketUrl = WebSocketParsingInfo.WEB_SOCKET_CLIENT_URL.getValue();
     private final WebSocketHandler handler;
     private WebSocketSession session;
 

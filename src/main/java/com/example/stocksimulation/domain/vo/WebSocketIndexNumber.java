@@ -5,8 +5,10 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum TradeVO {
-    EMPTY_TRADE(0);
+public enum WebSocketIndexNumber {
+    INDEX_OF_RESPONSE(3),
+    INDEX_OF_CODE(0),
+    INDEX_OF_PRICE(2);
 
-    private final int quantity;
+    private final int value;
 }

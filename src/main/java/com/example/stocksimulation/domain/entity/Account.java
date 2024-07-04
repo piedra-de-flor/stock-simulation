@@ -1,7 +1,7 @@
 package com.example.stocksimulation.domain.entity;
 
 import com.example.stocksimulation.domain.vo.TradeType;
-import com.example.stocksimulation.domain.vo.TradeVO;
+import com.example.stocksimulation.domain.vo.ZeroTradeQuantity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -62,7 +61,7 @@ public class Account {
         }
 
         for (Trade trade : sells) {
-            if (quantity <= TradeVO.EMPTY_TRADE.getQuantity()) {
+            if (quantity <= ZeroTradeQuantity.EMPTY_TRADE.getQuantity()) {
                 break;
             }
 
@@ -71,7 +70,7 @@ public class Account {
             if (tradeQuantity >= quantity) {
                 trade.sell(quantity);
                 this.money += quantity * sellTrade.getStock().getPrice();
-                quantity = TradeVO.EMPTY_TRADE.getQuantity();
+                quantity = ZeroTradeQuantity.EMPTY_TRADE.getQuantity();
             } else {
                 this.money += tradeQuantity * sellTrade.getStock().getPrice();
                 quantity -= tradeQuantity;
