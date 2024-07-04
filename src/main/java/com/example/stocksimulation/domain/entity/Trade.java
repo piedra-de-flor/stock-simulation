@@ -39,4 +39,16 @@ public class Trade {
     public void sell(int quantity) {
         this.quantity -= quantity;
     }
+
+    public String getStockCode() {
+        return stock.getCode();
+    }
+
+    public String getStockName() {
+        return stock.getName();
+    }
+
+    public long getStockPrice() {
+        return stock.getPrice();
+    }
 }

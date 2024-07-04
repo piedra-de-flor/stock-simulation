@@ -7,6 +7,6 @@ public record TradeResponseDto(
         int quantity
 ) {
     public static TradeResponseDto fromTrade(Trade trade) {
-        return new TradeResponseDto(trade.getStock().getName(), trade.getQuantity());
+        return new TradeResponseDto(trade.getStockName(), trade.getQuantity());
     }
 }

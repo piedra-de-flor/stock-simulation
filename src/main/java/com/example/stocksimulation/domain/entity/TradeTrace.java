@@ -35,9 +35,9 @@ public class TradeTrace {
     public TradeTrace(Trade trade) {
         this.date = LocalDateTime.now();
         this.account = trade.getAccount();
-        this.stockCode = trade.getStock().getCode();
-        this.stockName = trade.getStock().getName();
-        this.price = trade.getStock().getPrice();
+        this.stockCode = trade.getStockCode();
+        this.stockName = trade.getStockName();
+        this.price = trade.getStockPrice();
         this.quantity = trade.getQuantity();
         this.tradeType = trade.getTradeType();
     }
