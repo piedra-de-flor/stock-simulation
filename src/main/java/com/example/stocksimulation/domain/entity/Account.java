@@ -19,7 +19,6 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private long money = 0;
 
     @OneToOne(mappedBy = "account")

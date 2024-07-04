@@ -28,7 +28,7 @@ public class WebSocketConnectService {
     public void connect() {
         try {
             StandardWebSocketClient webSocketClient = new StandardWebSocketClient();
-            session = webSocketClient.execute(handler, socketUrl).get();
+            setSession(webSocketClient.execute(handler, socketUrl).get());
         } catch (ExecutionException | InterruptedException e) {
             log.warn("webSocketClient : ", e);
         }
@@ -41,5 +41,9 @@ public class WebSocketConnectService {
             log.warn("webSocketClient : WebSocket session is not open.");
             log.warn("webSocketClient : ", e);
         }
+    }
+
+    public void setSession(WebSocketSession session) {
+        this.session = session;
     }
 }
