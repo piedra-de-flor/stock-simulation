@@ -20,7 +20,7 @@ public class StockService {
                 .orElseThrow(NoSuchElementException::new);
         if (stock.getPrice() != price) {
             stock.updatePrice(price);
-            StockDto stockDto = stock.toDto();
+            StockDto stockDto = new StockDto(stockCode, price, stock.getName());
             socketServerHandler.stocks.put(stockCode, stockDto);
             socketServerHandler.sendStockDtoToAllClients(stockDto);
         }

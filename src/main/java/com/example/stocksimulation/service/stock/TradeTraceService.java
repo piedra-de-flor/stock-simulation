@@ -24,7 +24,7 @@ public class TradeTraceService {
         List<TradeTraceDto> response = new ArrayList<>();
 
         for (TradeTrace trace : traces) {
-            response.add(trace.toDto());
+            response.add(TradeTraceDto.create(trace));
         }
 
         return response;

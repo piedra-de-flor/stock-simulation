@@ -21,7 +21,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long money = 500000;
+    private long money = 0;
 
     @OneToOne(mappedBy = "account")
     private Member member;

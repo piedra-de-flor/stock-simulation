@@ -41,8 +41,4 @@ public class TradeTrace {
         this.quantity = trade.getQuantity();
         this.tradeType = trade.getTradeType();
     }
-
-    public TradeTraceDto toDto() {
-        return new TradeTraceDto(date, stockName, stockCode, price, quantity);
-    }
 }
