@@ -6,8 +6,11 @@ import com.example.stocksimulation.repository.StockRepository;
 import com.example.stocksimulation.service.support.WebSocketClientToServerHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -15,6 +18,7 @@ public class StockService {
     private final StockRepository repository;
     private final WebSocketClientToServerHandler socketServerHandler;
 
+    @Transactional
     public void updateStockPrice(String stockCode, int price) {
         Stock stock = repository.findByCode(stockCode)
                 .orElseThrow(NoSuchElementException::new);
@@ -24,6 +28,12 @@ public class StockService {
             socketServerHandler.stocks.put(stockCode, stockDto);
             socketServerHandler.sendStockDtoToAllClients(stockDto);
         }
+    }
+
+    public List<StockDto> readAll() {
+        return repository.findAll().stream()
+                .map(Stock::toDto)
+                .collect(Collectors.toList());
     }
 
     public void saveTest() {

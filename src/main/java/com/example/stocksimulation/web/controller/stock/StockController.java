@@ -4,9 +4,7 @@ import com.example.stocksimulation.domain.vo.WebSocketParsingInfo;
 import com.example.stocksimulation.service.stock.StockService;
 import com.example.stocksimulation.service.stock.WebSocketConnectService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,9 +23,10 @@ public class StockController {
         service.send(request);
     }
 
-    @PostMapping("/stock")
-    public String save() {
+    @GetMapping("/stock-test/{price}")
+    public String test(@PathVariable int price) {
         stockService.saveTest();
-        return "save";
+        stockService.updateStockPrice("005930", price);
+        return "execute";
     }
 }

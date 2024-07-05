@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component("clientToServerHandler")
 @RequiredArgsConstructor
 public class WebSocketClientToServerHandler extends TextWebSocketHandler {
-    private static final ConcurrentHashMap<String, WebSocketSession> CLIENTS = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, WebSocketSession> CLIENTS = new ConcurrentHashMap<>();
     public final Map<String, StockDto> stocks = new HashMap<>();
     private final ObjectMapper objectMapper;
 
