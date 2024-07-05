@@ -1,9 +1,6 @@
 package com.example.stocksimulation.service.stock;
 
-import com.example.stocksimulation.domain.entity.Account;
-import com.example.stocksimulation.domain.entity.Member;
-import com.example.stocksimulation.domain.entity.Stock;
-import com.example.stocksimulation.domain.entity.Trade;
+import com.example.stocksimulation.domain.entity.*;
 import com.example.stocksimulation.domain.vo.TradeType;
 import com.example.stocksimulation.domain.vo.ZeroTradeQuantity;
 import com.example.stocksimulation.dto.trade.TradeRequestDto;
@@ -27,44 +24,28 @@ public class TradeService {
     private final StockRepository stockRepository;
 
     @Transactional
-    public boolean trade(String memberEmail, TradeRequestDto dto, TradeType tradeType) {
+    public boolean trade(String memberEmail, TradeRequestDto dto, TraderConstructor traderConstructor, TradeType tradeType) {
         Member member = memberRepository.getMemberByEmail(memberEmail);
         Stock stock = stockRepository.findByCode(dto.stockCode())
                 .orElseThrow(NoSuchElementException::new);
         Account account = member.getAccount();
 
-        Trade trade;
-        switch (tradeType) {
-            case BUY :
-                trade = Trade.builder()
-                    .account(account)
-                    .stock(stock)
-                    .quantity(dto.quantity())
-                    .tradeType(TradeType.BUY)
-                    .build();
+        Trade trade = Trade.builder()
+                .account(account)
+                .stock(stock)
+                .quantity(dto.quantity())
+                .tradeType(tradeType)
+                .build();
 
-                account.buy(trade);
-                break;
-            case SELL :
-                trade = Trade.builder()
-                        .account(account)
-                        .stock(stock)
-                        .quantity(dto.quantity())
-                        .tradeType(TradeType.BUY)
-                        .build();
+        Trader trader = traderConstructor.createTrader(tradeRepository);
 
-                account.sell(trade);
-                deleteCompletedTradesAsync();
-                break;
-            default:
-                throw new IllegalArgumentException("not available trade type");
-        }
-        tradeRepository.save(trade);
+        trader.trade(account, trade);
         traceService.recordTrace(trade);
 
         return true;
     }
 
+    // 배치로 돌려
     @Async
     public void deleteCompletedTradesAsync() {
         List<Trade> completedTrades = tradeRepository.findAllByQuantity(ZeroTradeQuantity.EMPTY_TRADE.getQuantity());

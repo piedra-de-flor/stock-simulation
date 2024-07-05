@@ -36,6 +36,10 @@ public class Trade {
         this.tradeType = tradeType;
     }
 
+    public void buy(int quantity) {
+        this.quantity += quantity;
+    }
+
     public void sell(int quantity) {
         this.quantity -= quantity;
     }
