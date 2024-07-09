@@ -29,8 +29,9 @@ public class Member implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
-    @OneToMany
-    private List<Account> accounts = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     @Builder
     public Member(String name, String email, String password, List<String> roles) {
@@ -48,6 +49,10 @@ public class Member implements UserDetails {
         if (password != null) {
             this.password = password;
         }
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override

@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WebSocketConnectedVO {
+public class WebSocketConnectInfo {
     String msg1;
     String iv;
     String key;
