@@ -24,23 +24,52 @@ public class TradeService {
     private final StockRepository stockRepository;
 
     @Transactional
-    public boolean trade(String memberEmail, TradeRequestDto dto, TraderConstructor traderConstructor, TradeType tradeType) {
+    public boolean buy(String memberEmail, TradeRequestDto dto) {
         Member member = memberRepository.getMemberByEmail(memberEmail);
         Stock stock = stockRepository.findByCode(dto.stockCode())
                 .orElseThrow(NoSuchElementException::new);
         Account account = member.getAccount();
 
-        Trade trade = Trade.builder()
-                .account(account)
-                .stock(stock)
-                .quantity(dto.quantity())
-                .tradeType(tradeType)
-                .build();
+        if (account.hasTrade(stock.getCode())) {
+            account.buy(dto.quantity(), stock.getPrice());
+            tradeRepository.findAllByAccount(account).stream()
+                    .filter(oldTrade -> oldTrade.getStockCode().equals(stock.getCode()))
+                    .findFirst()
+                    .get()
+                    .buy(dto.quantity());
+        } else {
+            Trade trade = Trade.builder()
+                    .account(account)
+                    .stock(stock)
+                    .tradeType(TradeType.BUY)
+                    .quantity(dto.quantity())
+                    .build();
 
-        Trader trader = traderConstructor.createTrader(tradeRepository);
+            account.buy(dto.quantity(), stock.getPrice());
+            tradeRepository.save(trade);
+            account.getTrades().add(trade);
+        }
 
-        trader.trade(account, trade);
-        traceService.recordTrace(trade);
+        traceService.recordTrace(account, stock, dto.quantity(), TradeType.BUY);
+        return true;
+    }
+
+    @Transactional
+    public boolean sell(String memberEmail, TradeRequestDto dto) {
+        Member member = memberRepository.getMemberByEmail(memberEmail);
+        Stock stock = stockRepository.findByCode(dto.stockCode())
+                .orElseThrow(NoSuchElementException::new);
+        Account account = member.getAccount();
+
+        if (account.canSell(stock.getCode(), dto.quantity())) {
+            account.sell(dto.quantity(), stock.getPrice());
+            Trade trade = tradeRepository.findAllByAccount(account).stream()
+                    .filter(hasTrade -> hasTrade.getStockCode().equals(stock.getCode()))
+                    .findFirst().get();
+
+            trade.sell(dto.quantity());
+            traceService.recordTrace(account, stock, dto.quantity(), TradeType.SELL);
+        }
 
         return true;
     }

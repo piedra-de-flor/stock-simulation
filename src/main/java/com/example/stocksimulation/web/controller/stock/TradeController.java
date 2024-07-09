@@ -22,7 +22,7 @@ public class TradeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String memberEmail = authentication.getName();
 
-        boolean response = service.trade(memberEmail, dto, TraderConstructor.BUY, TradeType.BUY);
+        boolean response = service.buy(memberEmail, dto);
         return ResponseEntity.ok(response);
     }
 
@@ -31,7 +31,7 @@ public class TradeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
        String memberEmail = authentication.getName();
 
-        boolean response = service.trade(memberEmail, dto, TraderConstructor.SELL, TradeType.SELL);
+        boolean response = service.sell(memberEmail, dto);
         return ResponseEntity.ok(response);
     }
 }

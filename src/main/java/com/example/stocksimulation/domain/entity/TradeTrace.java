@@ -32,13 +32,13 @@ public class TradeTrace {
     private TradeType tradeType;
 
     @Builder
-    public TradeTrace(Trade trade) {
+    public TradeTrace(Account account, Stock stock, int quantity, TradeType tradeType) {
         this.date = LocalDateTime.now();
-        this.account = trade.getAccount();
-        this.stockCode = trade.getStockCode();
-        this.stockName = trade.getStockName();
-        this.price = trade.getStockPrice();
-        this.quantity = trade.getQuantity();
-        this.tradeType = trade.getTradeType();
+        this.account = account;
+        this.stockCode = stock.getCode();
+        this.stockName = stock.getName();
+        this.price = stock.getPrice();
+        this.quantity = quantity;
+        this.tradeType = tradeType;
     }
 }
