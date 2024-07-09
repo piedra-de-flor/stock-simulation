@@ -1,8 +1,8 @@
 package com.example.stocksimulation.service.support;
 
-import com.example.stocksimulation.domain.vo.WebSocketClientNumberVO;
-import com.example.stocksimulation.domain.vo.WebSocketClientVO;
-import com.example.stocksimulation.domain.vo.WebSocketConnectedVO;
+import com.example.stocksimulation.domain.vo.WebSocketIndexNumber;
+import com.example.stocksimulation.domain.vo.WebSocketParsingInfo;
+import com.example.stocksimulation.domain.vo.WebSocketConnectInfo;
 import com.example.stocksimulation.service.stock.StockService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,26 +26,26 @@ public class WebSocketServerToApiHandler extends TextWebSocketHandler {
     private final StockService service;
     private final TaskScheduler taskScheduler = new SimpleAsyncTaskScheduler();
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private WebSocketConnectedVO connectedVO;
+    private WebSocketConnectInfo connectedVO;
     private WebSocketSession session;
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws JsonProcessingException {
         log.info("webSocketClient : Received message from server");
         if (message.getPayload().startsWith("0") || message.getPayload().startsWith("1")) {
-            String[] responses = message.getPayload().split(WebSocketClientVO.WEB_SOCKET_CLIENT_RESPONSE_SPLITER.getValue());
-            String[] response = responses[WebSocketClientNumberVO.INDEX_OF_RESPONSE.getValue()].split(WebSocketClientVO.WEB_SOCKET_CLIENT_PRICE_SPLITER.getValue());
-            String code = response[WebSocketClientNumberVO.INDEX_OF_CODE.getValue()];
-            String price = response[WebSocketClientNumberVO.INDEX_OF_PRICE.getValue()];
+            String[] responses = message.getPayload().split(WebSocketParsingInfo.WEB_SOCKET_CLIENT_RESPONSE_SPLITER.getValue());
+            String[] response = responses[WebSocketIndexNumber.INDEX_OF_RESPONSE.getValue()].split(WebSocketParsingInfo.WEB_SOCKET_CLIENT_PRICE_SPLITER.getValue());
+            String code = response[WebSocketIndexNumber.INDEX_OF_CODE.getValue()];
+            String price = response[WebSocketIndexNumber.INDEX_OF_PRICE.getValue()];
 
             service.updateStockPrice(code, Integer.parseInt(price));
         } else if (message.getPayload().contains("SUBSCRIBE SUCCESS")) {
-            connectedVO = objectMapper.readValue(message.getPayload(), WebSocketConnectedVO.class);
+            connectedVO = objectMapper.readValue(message.getPayload(), WebSocketConnectInfo.class);
             JsonNode jsonNode = objectMapper.readTree(message.getPayload());
             String msg1 = jsonNode.path("body").path("msg1").asText();
             String iv = jsonNode.path("body").path("output").path("iv").asText();
             String key = jsonNode.path("body").path("output").path("key").asText();
-            connectedVO = new WebSocketConnectedVO(msg1, iv, key);
+            connectedVO = new WebSocketConnectInfo(msg1, iv, key);
             System.out.println("Message: " + message.getPayload());
         }
     }
@@ -76,7 +76,7 @@ public class WebSocketServerToApiHandler extends TextWebSocketHandler {
 
     private void sendHeartbeat() {
         try {
-            session.sendMessage(new TextMessage(WebSocketClientVO.WEB_SOCKET_CLIENT_HEARTBEAT.getValue()));
+            session.sendMessage(new TextMessage(WebSocketParsingInfo.WEB_SOCKET_CLIENT_HEARTBEAT.getValue()));
         } catch (IOException e){
             log.warn("webSocketClient : WebSocket session is not open.");
             log.warn("Exception : ", e);

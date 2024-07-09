@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +45,6 @@ public class MemberController {
     public ResponseEntity<JwtToken> signIn(
             @Parameter(description = "로그인 요청 정보", required = true)
             @RequestBody @Validated MemberSignInDto signInDto) {
-        System.out.println("controller");
         JwtToken token = service.signIn(signInDto.email(), signInDto.password());
         return ResponseEntity.ok(token);
     }
@@ -56,7 +57,10 @@ public class MemberController {
     public ResponseEntity<MemberUpdateDto> update(
             @Parameter(description = "수정 요소들", required = true)
             @RequestBody MemberUpdateDto updateDto) {
-        MemberUpdateDto response = service.update(updateDto);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String memberEmail = authentication.getName();
+
+        MemberUpdateDto response = service.update(updateDto, memberEmail);
         return ResponseEntity.ok(response);
     }
 
@@ -65,10 +69,11 @@ public class MemberController {
     @ApiResponse(responseCode = "400", description = "잘못된 요청 형식입니다")
     @ApiResponse(responseCode = "500", description = "내부 서버 오류 발생")
     @DeleteMapping("/member")
-    public ResponseEntity<Long> delete(
-            @Parameter(description = "삭제할 Member Id", required = true)
-            @RequestParam Long memberId) {
-        long response = service.delete(memberId);
+    public ResponseEntity<String> delete() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String memberEmail = authentication.getName();
+
+        String response = service.delete(memberEmail);
         return ResponseEntity.ok(response);
     }
 }

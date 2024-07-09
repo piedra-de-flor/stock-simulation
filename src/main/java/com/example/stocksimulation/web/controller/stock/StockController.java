@@ -1,6 +1,6 @@
 package com.example.stocksimulation.web.controller.stock;
 
-import com.example.stocksimulation.domain.vo.WebSocketClientVO;
+import com.example.stocksimulation.domain.vo.WebSocketParsingInfo;
 import com.example.stocksimulation.service.stock.StockService;
 import com.example.stocksimulation.service.stock.WebSocketConnectService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class StockController {
 
     @GetMapping("/send")
     public void send() {
-        String request = WebSocketClientVO.WEB_SOCKET_CLIENT_REQUEST.getValue();
+        String request = WebSocketParsingInfo.WEB_SOCKET_CLIENT_REQUEST.getValue();
         service.send(request);
     }
 

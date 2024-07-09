@@ -21,10 +21,6 @@ public class Stock {
         this.price = price;
     }
 
-    public StockDto toDto() {
-        return new StockDto(code, price, name);
-    }
-
     @Builder
     public Stock(String code, int price, String name) {
         this.code= code;
