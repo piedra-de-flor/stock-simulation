@@ -1,6 +1,6 @@
 package com.example.stocksimulation.service.support;
 
-import com.example.stocksimulation.domain.vo.WebSocketConnectedVO;
+import com.example.stocksimulation.domain.vo.WebSocketConnectInfo;
 import com.example.stocksimulation.service.stock.StockService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +39,7 @@ class WebSocketServerToApiHandlerTest {
         String messagePayload = "0|response|code|TEST^TEST^10000";
         TextMessage message = new TextMessage(messagePayload);
 
-        when(objectMapper.readValue(message.getPayload(), WebSocketConnectedVO.class)).thenReturn(new WebSocketConnectedVO("msg1", "iv", "key"));
+        when(objectMapper.readValue(message.getPayload(), WebSocketConnectInfo.class)).thenReturn(new WebSocketConnectInfo("msg1", "iv", "key"));
         webSocketServerToApiHandler.handleTextMessage(session, message);
 
         verify(stockService, times(1)).updateStockPrice(anyString(), anyInt());

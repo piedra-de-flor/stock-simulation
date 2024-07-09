@@ -1,9 +1,7 @@
 package com.example.stocksimulation.web.controller.stock;
 
-import com.example.stocksimulation.domain.vo.TradeType;
 import com.example.stocksimulation.dto.trade.TradeRequestDto;
 import com.example.stocksimulation.service.stock.TradeService;
-import com.example.stocksimulation.service.stock.TraderConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

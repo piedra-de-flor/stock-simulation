@@ -60,7 +60,7 @@ class TradeServiceTest {
         when(memberRepository.getMemberByEmail(anyString())).thenReturn(member);
         when(stockRepository.findByCode(anyString())).thenReturn(Optional.of(stock));
 
-        boolean result = tradeService.trade("test@test.com", dto, TradeType.BUY);
+        boolean result = tradeService.buy("test@test.com", dto);
 
         ArgumentCaptor<Trade> tradeCaptor = ArgumentCaptor.forClass(Trade.class);
         verify(tradeRepository).save(tradeCaptor.capture());
@@ -71,7 +71,7 @@ class TradeServiceTest {
         assertEquals(10, savedTrade.getQuantity());
         assertEquals(stock, savedTrade.getStock());
         assertEquals(account, savedTrade.getAccount());
-        verify(traceService).recordTrace(any(Trade.class));
+        verify(traceService).recordTrace(any(), any(), any(), any());
     }
 
     @Test
@@ -80,10 +80,9 @@ class TradeServiceTest {
         when(memberRepository.getMemberByEmail(anyString())).thenReturn(member);
         when(stockRepository.findByCode(anyString())).thenReturn(Optional.of(stock));
 
-        Trade buyTrade = new Trade(account, stock, 10, TradeType.BUY);
-        account.buy(buyTrade);
+        account.buy(10, 1000);
 
-        boolean result = tradeService.trade("test@test.com", dto, TradeType.SELL);
+        boolean result = tradeService.sell("test@test.com", dto);
 
         ArgumentCaptor<Trade> tradeCaptor = ArgumentCaptor.forClass(Trade.class);
         verify(tradeRepository).save(tradeCaptor.capture());
@@ -94,7 +93,7 @@ class TradeServiceTest {
         assertEquals(5, savedTrade.getQuantity());
         assertEquals(stock, savedTrade.getStock());
         assertEquals(account, savedTrade.getAccount());
-        verify(traceService).recordTrace(any(Trade.class));
+        verify(traceService).recordTrace(any(), any(), any(), any());
         verify(tradeRepository).deleteAll(anyList());
     }
 }
