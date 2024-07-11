@@ -32,13 +32,4 @@ public class AccountController {
         AccountInfoDto response = service.readAccount(memberEmail);
         return ResponseEntity.ok(response);
     }
-
-    @GetMapping("/balance")
-    public ResponseEntity<Long> getBalance() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String memberEmail = authentication.getName();
-
-        long response = service.getBalance(memberEmail);
-        return ResponseEntity.ok(response);
-    }
 }

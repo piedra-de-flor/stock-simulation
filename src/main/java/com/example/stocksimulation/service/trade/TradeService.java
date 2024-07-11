@@ -29,7 +29,7 @@ public class TradeService {
                 .orElseThrow(NoSuchElementException::new);
         Account account = member.getAccount();
 
-        Trade trade = tradeConstructor.createTrader(dto.stockCode(), dto.quantity());
+        Trade trade = tradeConstructor.createTrade(stock.getName(), dto.stockCode(), dto.quantity());
         trade.proceed(account, stock.getPrice());
         traceService.recordTrace(account, stock, dto.quantity(), tradeType);
         return true;

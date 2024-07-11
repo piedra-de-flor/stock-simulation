@@ -9,9 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,12 +18,13 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Getter
     private long money = 0;
 
     @OneToOne(mappedBy = "account")
     private Member member;
 
-    @Getter
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "trades", joinColumns = @JoinColumn(name = "account_id"))
     private List<Trade> trades = new ArrayList<>();
@@ -92,13 +91,13 @@ public class Account {
                 .collect(Collectors.toList());
     }
 
-    public long calculateBalance() {
-        long balance = 0;
+    public Map<String, Integer> getHasTrades() {
+        Map<String, Integer> hasTrades = new HashMap<>();
 
         for (Trade trade : trades) {
-            balance += trade.getQuantity() * trade.getStock().getPrice();
+            hasTrades.put(trade.getStockName(), trade.getQuantity());
         }
 
-        return balance;
+        return hasTrades;
     }
 }

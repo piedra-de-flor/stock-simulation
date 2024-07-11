@@ -3,8 +3,9 @@ package com.example.stocksimulation.domain.vo.trade;
 public enum TradeConstructor {
     BUY {
         @Override
-        public Trade createTrader(String stockCode, int quantity) {
+        public Trade createTrade(String stockName, String stockCode, int quantity) {
             return BuyTrade.builder()
+                    .stockName(stockName)
                     .stockCode(stockCode)
                     .quantity(quantity)
                     .build();
@@ -12,13 +13,14 @@ public enum TradeConstructor {
     },
     SELL {
         @Override
-        public Trade createTrader(String stockCode, int quantity) {
+        public Trade createTrade(String stockName, String stockCode, int quantity) {
             return SellTrade.builder()
+                    .stockName(stockName)
                     .stockCode(stockCode)
                     .quantity(quantity)
                     .build();
         }
     };
 
-    public abstract Trade createTrader(String stockCode, int quantity);
+    public abstract Trade createTrade(String stockName, String stockCode, int quantity);
 }

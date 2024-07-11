@@ -11,11 +11,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @Embeddable
 public abstract class Trade {
+    protected String stockName;
     protected String stockCode;
     protected int quantity;
 
     @Builder
-    public Trade(String stockCode, int quantity) {
+    public Trade(String stockName, String stockCode, int quantity) {
+        this.stockName = stockName;
         this.stockCode = stockCode;
         this.quantity = quantity;
     }

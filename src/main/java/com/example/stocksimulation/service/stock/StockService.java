@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -36,6 +37,16 @@ public class StockService {
         repository.findAll()
                 .forEach(stock -> response.add(new StockDto(stock.getCode(), stock.getPrice(), stock.getName())));
         return response;
+    }
+
+    public List<Long> getStockPriceByName(List<String> names) {
+        List<Long> prices = new ArrayList<>();
+        for (String name : names) {
+            Stock stock = repository.findByName(name).get();
+            prices.add(stock.getPrice());
+        }
+
+        return prices;
     }
 
     public void saveTest() {
