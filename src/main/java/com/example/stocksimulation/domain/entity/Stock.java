@@ -1,6 +1,5 @@
 package com.example.stocksimulation.domain.entity;
 
-import com.example.stocksimulation.dto.stock.StockDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;

@@ -1,4 +1,4 @@
-package com.example.stocksimulation.service.stock;
+package com.example.stocksimulation.service.trade;
 
 import com.example.stocksimulation.domain.entity.*;
 import com.example.stocksimulation.domain.vo.TradeType;

@@ -1,16 +1,20 @@
 package com.example.stocksimulation.domain.entity;
 
+import com.example.stocksimulation.domain.vo.trade.Trade;
+import com.example.stocksimulation.domain.vo.ZeroTradeQuantity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
 @Entity
 public class Account {
     @Id
@@ -21,7 +25,9 @@ public class Account {
     @OneToOne(mappedBy = "account")
     private Member member;
 
-    @OneToMany(mappedBy = "account")
+    @Getter
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "trades", joinColumns = @JoinColumn(name = "account_id"))
     private List<Trade> trades = new ArrayList<>();
 
     @Builder
@@ -29,7 +35,28 @@ public class Account {
         this.member = member;
     }
 
-    public void buy(int quantity, long price) {
+    public void buyTrade(int quantity, long price, Trade trade) {
+        buy(quantity, price);
+        addNewTradeOrIncreaseTradeQuantity(trade);
+    }
+
+    public void sellTrade(int quantity, long price, Trade trade) {
+        Trade targetTrade = findTradeCanSell(trade.getStockCode(), quantity);
+        sell(quantity, price);
+        targetTrade.sell(quantity);
+        deleteCompletedTradesAsync();
+    }
+
+    private void addNewTradeOrIncreaseTradeQuantity(Trade newTrade) {
+        Optional<Trade> existingTrade = hasTrade(newTrade.getStockCode());
+        if (existingTrade.isPresent()) {
+            existingTrade.get().buy(newTrade.getQuantity());
+        } else {
+            trades.add(newTrade);
+        }
+    }
+
+    private void buy(int quantity, long price) {
         long priceToPayment = quantity * price;
 
         if (this.money >= priceToPayment) {
@@ -39,20 +66,30 @@ public class Account {
         }
     }
 
-    public void sell(int quantity, long price) {
+    private void sell(int quantity, long price) {
         this.money += quantity * price;
     }
 
-    public boolean canSell(String stockCode, int quantity) {
-        return trades.stream()
-                .anyMatch(trade -> trade.getStockCode().equals(stockCode)) &&
-                trades.stream()
-                        .filter(trade -> trade.getStockCode().equals(stockCode))
-                        .findFirst().get().getQuantity() >= quantity;
+    private Trade findTradeCanSell(String stockCode, int quantity) {
+        Optional<Trade> candidateTrade = trades.stream().filter(trade -> trade.getStockCode().equals(stockCode)).findFirst();
+        boolean response = candidateTrade.isPresent() && candidateTrade.get().getQuantity() >= quantity;
+
+        if (response) {
+            return candidateTrade.get();
+        } else {
+            throw new IllegalArgumentException("not enough stocks");
+        }
     }
 
-    public boolean hasTrade(String stockCode) {
-        return trades.stream().anyMatch(trade -> trade.getStockCode().equals(stockCode));
+    private Optional<Trade> hasTrade(String stockCode) {
+        return trades.stream().filter(trade -> trade.getStockCode().equals(stockCode)).findFirst();
+    }
+
+    @Async
+    protected void deleteCompletedTradesAsync() {
+        trades = trades.stream()
+                .filter(trade -> trade.getQuantity() > ZeroTradeQuantity.EMPTY_TRADE.getQuantity())
+                .collect(Collectors.toList());
     }
 
     public long calculateBalance() {

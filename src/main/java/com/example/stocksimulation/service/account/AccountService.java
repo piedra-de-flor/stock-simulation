@@ -2,7 +2,7 @@ package com.example.stocksimulation.service.account;
 
 import com.example.stocksimulation.domain.entity.Account;
 import com.example.stocksimulation.domain.entity.Member;
-import com.example.stocksimulation.domain.entity.Trade;
+import com.example.stocksimulation.domain.vo.trade.Trade;
 import com.example.stocksimulation.dto.account.AccountInfoDto;
 import com.example.stocksimulation.dto.trade.TradeResponseDto;
 import com.example.stocksimulation.repository.AccountRepository;
