@@ -15,13 +15,6 @@ public abstract class Trade {
     protected String stockCode;
     protected int quantity;
 
-    @Builder
-    public Trade(String stockName, String stockCode, int quantity) {
-        this.stockName = stockName;
-        this.stockCode = stockCode;
-        this.quantity = quantity;
-    }
-
     public abstract void proceed(Account account, long price);
 
     public void buy(int quantity) {

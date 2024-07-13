@@ -4,21 +4,13 @@ public enum TradeConstructor {
     BUY {
         @Override
         public Trade createTrade(String stockName, String stockCode, int quantity) {
-            return BuyTrade.builder()
-                    .stockName(stockName)
-                    .stockCode(stockCode)
-                    .quantity(quantity)
-                    .build();
+            return new BuyTrade(stockName, stockCode, quantity);
         }
     },
     SELL {
         @Override
         public Trade createTrade(String stockName, String stockCode, int quantity) {
-            return SellTrade.builder()
-                    .stockName(stockName)
-                    .stockCode(stockCode)
-                    .quantity(quantity)
-                    .build();
+            return new SellTrade(stockName, stockCode, quantity);
         }
     };
 

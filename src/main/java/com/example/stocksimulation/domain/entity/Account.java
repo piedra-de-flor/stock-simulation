@@ -34,15 +34,15 @@ public class Account {
         this.member = member;
     }
 
-    public void buyTrade(int quantity, long price, Trade trade) {
-        buy(quantity, price);
+    public void buyTrade(long price, Trade trade) {
+        buy(trade.getQuantity(), price);
         addNewTradeOrIncreaseTradeQuantity(trade);
     }
 
-    public void sellTrade(int quantity, long price, Trade trade) {
-        Trade targetTrade = findTradeCanSell(trade.getStockCode(), quantity);
-        sell(quantity, price);
-        targetTrade.sell(quantity);
+    public void sellTrade(long price, Trade trade) {
+        Trade targetTrade = findTradeCanSell(trade.getStockCode(), trade.getQuantity());
+        sell(trade.getQuantity(), price);
+        targetTrade.sell(trade.getQuantity());
         deleteCompletedTradesAsync();
     }
 
