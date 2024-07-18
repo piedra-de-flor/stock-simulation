@@ -1,8 +1,7 @@
-package com.example.stocksimulation.service.stock;
+package com.example.stocksimulation.service.trade;
 
-import com.example.stocksimulation.domain.entity.Member;
-import com.example.stocksimulation.domain.entity.Trade;
-import com.example.stocksimulation.domain.entity.TradeTrace;
+import com.example.stocksimulation.domain.entity.*;
+import com.example.stocksimulation.domain.vo.TradeType;
 import com.example.stocksimulation.dto.trade.TradeTraceDto;
 import com.example.stocksimulation.repository.MemberRepository;
 import com.example.stocksimulation.repository.TradeTraceRepository;
@@ -20,7 +19,7 @@ public class TradeTraceService {
 
     public List<TradeTraceDto> readAll(String memberEmail) {
         Member member = memberRepository.getMemberByEmail(memberEmail);
-        List<TradeTrace> traces = member.getAccount().getTraces();
+        List<TradeTrace> traces = repository.findAllByAccount(member.getAccount());
         List<TradeTraceDto> response = new ArrayList<>();
 
         for (TradeTrace trace : traces) {
@@ -30,9 +29,12 @@ public class TradeTraceService {
         return response;
     }
 
-    public void recordTrace(Trade trade) {
+    public void recordTrace(Account account, Stock stock, int quantity, TradeType tradeType) {
         TradeTrace trace = TradeTrace.builder()
-                .trade(trade)
+                .account(account)
+                .quantity(quantity)
+                .stock(stock)
+                .tradeType(tradeType)
                 .build();
 
         repository.save(trace);

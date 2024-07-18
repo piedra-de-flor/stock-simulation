@@ -1,9 +1,9 @@
 package com.example.stocksimulation.web.controller.stock;
 
+import com.example.stocksimulation.domain.vo.trade.TradeConstructor;
 import com.example.stocksimulation.domain.vo.TradeType;
 import com.example.stocksimulation.dto.trade.TradeRequestDto;
-import com.example.stocksimulation.service.stock.TradeService;
-import com.example.stocksimulation.service.stock.TraderConstructor;
+import com.example.stocksimulation.service.trade.TradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -22,7 +22,7 @@ public class TradeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String memberEmail = authentication.getName();
 
-        boolean response = service.trade(memberEmail, dto, TraderConstructor.BUY, TradeType.BUY);
+        boolean response = service.trade(memberEmail, dto, TradeConstructor.BUY, TradeType.BUY);
         return ResponseEntity.ok(response);
     }
 
@@ -31,7 +31,7 @@ public class TradeController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
        String memberEmail = authentication.getName();
 
-        boolean response = service.trade(memberEmail, dto, TraderConstructor.SELL, TradeType.SELL);
+        boolean response = service.trade(memberEmail, dto, TradeConstructor.SELL, TradeType.SELL);
         return ResponseEntity.ok(response);
     }
 }

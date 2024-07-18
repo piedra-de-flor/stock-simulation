@@ -1,12 +1,12 @@
 package com.example.stocksimulation.dto.trade;
 
-import com.example.stocksimulation.domain.entity.Trade;
+import com.example.stocksimulation.domain.vo.trade.Trade;
 
 public record TradeResponseDto(
-        String stockName,
+        String stockCode,
         int quantity
 ) {
     public static TradeResponseDto fromTrade(Trade trade) {
-        return new TradeResponseDto(trade.getStockName(), trade.getQuantity());
+        return new TradeResponseDto(trade.getStockCode(), trade.getQuantity());
     }
 }

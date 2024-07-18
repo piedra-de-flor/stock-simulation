@@ -2,7 +2,7 @@ package com.example.stocksimulation.service.account;
 
 import com.example.stocksimulation.domain.entity.Account;
 import com.example.stocksimulation.domain.entity.Member;
-import com.example.stocksimulation.domain.entity.Trade;
+import com.example.stocksimulation.domain.vo.trade.Trade;
 import com.example.stocksimulation.dto.account.AccountInfoDto;
 import com.example.stocksimulation.dto.trade.TradeResponseDto;
 import com.example.stocksimulation.repository.AccountRepository;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
@@ -34,20 +35,15 @@ public class AccountService {
                 .orElseThrow(NoSuchElementException::new);
 
         Account account = member.getAccount();
-        List<TradeResponseDto> trades = new ArrayList<>();
 
-        for (Trade trade : account.getTrades()) {
-            trades.add(TradeResponseDto.fromTrade(trade));
-        }
-
-        return new AccountInfoDto(member.getNickName(), account.getMoney(), trades);
+        return new AccountInfoDto(member.getNickName(), account.getMoney(), account.getHasTrades());
     }
 
-    public long getBalance(String email) {
+    public Map<String, Integer> getTrades(String email) {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(NoSuchElementException::new);
 
         Account account = member.getAccount();
-        return account.calculateBalance();
+        return account.getHasTrades();
     }
 }
