@@ -51,7 +51,11 @@ public class Account {
     }
 
     public void withdraw(long money) {
-        this.money -= money;
+        if (this.money >= money) {
+            this.money -= money;
+        } else {
+            throw new IllegalArgumentException("not enough money");
+        }
     }
 
     private void addNewTradeOrIncreaseTradeQuantity(Trade newTrade) {
