@@ -46,6 +46,14 @@ public class Account {
         deleteCompletedTradesAsync();
     }
 
+    public void deposit(long money) {
+        this.money += money;
+    }
+
+    public void withdraw(long money) {
+        this.money -= money;
+    }
+
     private void addNewTradeOrIncreaseTradeQuantity(Trade newTrade) {
         Optional<Trade> existingTrade = hasTrade(newTrade.getStockCode());
         if (existingTrade.isPresent()) {
