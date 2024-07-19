@@ -1,17 +1,13 @@
 package com.example.stocksimulation.service.account;
 
-import com.example.stocksimulation.domain.entity.Account;
+import com.example.stocksimulation.domain.entity.stock.Account;
 import com.example.stocksimulation.domain.entity.Member;
-import com.example.stocksimulation.domain.vo.trade.Trade;
 import com.example.stocksimulation.dto.account.AccountInfoDto;
-import com.example.stocksimulation.dto.trade.TradeResponseDto;
 import com.example.stocksimulation.repository.AccountRepository;
 import com.example.stocksimulation.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 

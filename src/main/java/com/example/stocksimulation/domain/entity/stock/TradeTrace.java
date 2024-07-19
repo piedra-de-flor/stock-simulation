@@ -1,7 +1,6 @@
-package com.example.stocksimulation.domain.entity;
+package com.example.stocksimulation.domain.entity.stock;
 
 import com.example.stocksimulation.domain.vo.TradeType;
-import com.example.stocksimulation.dto.trade.TradeTraceDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

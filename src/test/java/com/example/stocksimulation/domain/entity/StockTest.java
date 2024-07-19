@@ -1,5 +1,6 @@
 package com.example.stocksimulation.domain.entity;
 
+import com.example.stocksimulation.domain.entity.stock.Stock;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;

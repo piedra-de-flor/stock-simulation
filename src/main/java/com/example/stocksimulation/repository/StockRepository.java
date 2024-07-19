@@ -1,6 +1,6 @@
 package com.example.stocksimulation.repository;
 
-import com.example.stocksimulation.domain.entity.Stock;
+import com.example.stocksimulation.domain.entity.stock.Stock;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

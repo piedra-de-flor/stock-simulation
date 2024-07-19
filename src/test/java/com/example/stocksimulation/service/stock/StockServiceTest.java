@@ -1,6 +1,6 @@
 package com.example.stocksimulation.service.stock;
 
-import com.example.stocksimulation.domain.entity.Stock;
+import com.example.stocksimulation.domain.entity.stock.Stock;
 import com.example.stocksimulation.dto.stock.StockDto;
 import com.example.stocksimulation.repository.StockRepository;
 import com.example.stocksimulation.service.support.WebSocketClientToServerHandler;

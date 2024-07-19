@@ -1,5 +1,6 @@
 package com.example.stocksimulation.domain.entity;
 
+import com.example.stocksimulation.domain.entity.stock.Account;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

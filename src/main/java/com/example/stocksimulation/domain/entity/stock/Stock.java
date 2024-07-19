@@ -1,4 +1,4 @@
-package com.example.stocksimulation.domain.entity;
+package com.example.stocksimulation.domain.entity.stock;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

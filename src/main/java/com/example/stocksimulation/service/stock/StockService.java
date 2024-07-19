@@ -1,6 +1,6 @@
 package com.example.stocksimulation.service.stock;
 
-import com.example.stocksimulation.domain.entity.Stock;
+import com.example.stocksimulation.domain.entity.stock.Stock;
 import com.example.stocksimulation.dto.stock.StockDto;
 import com.example.stocksimulation.repository.StockRepository;
 import com.example.stocksimulation.service.account.WebSocketForBalance;
@@ -12,8 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
