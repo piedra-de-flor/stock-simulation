@@ -24,7 +24,7 @@ public class CommentController {
     @ApiResponse(responseCode = "200", description = "성공")
     @ApiResponse(responseCode = "400", description = "잘못된 요청 형식입니다")
     @ApiResponse(responseCode = "500", description = "내부 서버 오류 발생")
-    @PostMapping("/board")
+    @PostMapping("/comment")
     public ResponseEntity<Void> create(
             @Parameter(description = "게시물 작성 요소들", required = true)
             @RequestBody CommentCreateDto createDto) {
@@ -39,7 +39,7 @@ public class CommentController {
     @ApiResponse(responseCode = "200", description = "성공")
     @ApiResponse(responseCode = "400", description = "잘못된 요청 형식입니다")
     @ApiResponse(responseCode = "500", description = "내부 서버 오류 발생")
-    @DeleteMapping("/delete")
+    @DeleteMapping("/comment")
     public ResponseEntity<Void> delete(
             @Parameter(description = "삭제할 게시물 id", required = true)
             @RequestBody Long boardId) {
