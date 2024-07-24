@@ -2,9 +2,15 @@ package com.example.stocksimulation.domain.entity.cummunity;
 
 import com.example.stocksimulation.domain.entity.Member;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Board {
     @Id
@@ -19,6 +25,17 @@ public class Board {
 
     private String contents;
 
-    @OneToMany(mappedBy = "board")
-    private List<Comment> comments;
+    @OneToMany
+    private List<Comment> comments = new ArrayList<>();
+
+    @Builder
+    public Board(String title, Member member, String contents) {
+        this.title = title;
+        this.member = member;
+        this.contents = contents;
+    }
+
+    public String getAuthorName() {
+        return this.member.getNickName();
+    }
 }
