@@ -7,6 +7,7 @@ import com.example.stocksimulation.domain.vo.trade.Trade;
 import com.example.stocksimulation.domain.vo.trade.TradeConstructor;
 import com.example.stocksimulation.domain.vo.TradeType;
 import com.example.stocksimulation.dto.trade.TradeRequestDto;
+import com.example.stocksimulation.repository.AccountRepository;
 import com.example.stocksimulation.repository.MemberRepository;
 import com.example.stocksimulation.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +22,15 @@ public class TradeService {
     private final TradeTraceService traceService;
     private final MemberRepository memberRepository;
     private final StockRepository stockRepository;
+    private final AccountRepository accountRepository;
 
     @Transactional
     public boolean trade(String memberEmail, TradeRequestDto dto, TradeConstructor tradeConstructor, TradeType tradeType) {
         Member member = memberRepository.getMemberByEmail(memberEmail);
         Stock stock = stockRepository.findByCode(dto.stockCode())
                 .orElseThrow(NoSuchElementException::new);
-        Account account = member.getAccount();
+        Account account = accountRepository.findByMember(member)
+                .orElseThrow(IllegalArgumentException::new);
 
         Trade trade = tradeConstructor.createTrade(stock.getName(), dto.stockCode(), dto.quantity());
         trade.proceed(account, stock.getPrice());
