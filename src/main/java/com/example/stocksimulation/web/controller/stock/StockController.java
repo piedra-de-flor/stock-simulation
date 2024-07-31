@@ -6,6 +6,8 @@ import com.example.stocksimulation.service.stock.WebSocketConnectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.ExecutionException;
+
 @RequiredArgsConstructor
 @RestController
 public class StockController {
@@ -21,12 +23,5 @@ public class StockController {
     public void send() {
         String request = WebSocketParsingInfo.WEB_SOCKET_CLIENT_REQUEST.getValue();
         service.send(request);
-    }
-
-    @GetMapping("/stock-test/{price}")
-    public String test(@PathVariable int price) {
-        stockService.saveTest();
-        stockService.updateStockPrice("005930", price);
-        return "execute";
     }
 }
