@@ -7,6 +7,7 @@ import com.example.stocksimulation.repository.AccountRepository;
 import com.example.stocksimulation.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -17,12 +18,14 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final MemberRepository memberRepository;
 
+    @Transactional
     public AccountInfoDto create(String email) {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(NoSuchElementException::new);
 
         Account account = new Account(member);
         accountRepository.save(account);
+        member.setAccount(account);
         return new AccountInfoDto(member.getNickName(), 0, null);
     }
 

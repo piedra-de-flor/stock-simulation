@@ -54,7 +54,7 @@ public class StockService {
         Stock stock = Stock.builder()
                 .code("005930")
                 .name("test")
-                .price(10000)
+                .price(80000)
                 .build();
 
         repository.save(stock);
