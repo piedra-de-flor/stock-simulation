@@ -18,7 +18,7 @@ public class StockController {
 
     @GetMapping("/send")
     public void send() {
-        String request = WebSocketParsingInfo.WEB_SOCKET_CLIENT_REQUEST.getValue();
+        String[] request = WebSocketParsingInfo.WEB_SOCKET_CLIENT_REQUEST.getValue().split("=");
         service.send(request);
     }
 }
