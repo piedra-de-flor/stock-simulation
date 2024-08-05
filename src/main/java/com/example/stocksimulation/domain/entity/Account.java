@@ -95,7 +95,7 @@ public class Account {
         Map<String, Integer> hasTrades = new HashMap<>();
 
         for (Trade trade : trades) {
-            hasTrades.put(trade.getStockName(), trade.getQuantity());
+            hasTrades.put(trade.getStockCode(), trade.getQuantity());
         }
 
         return hasTrades;

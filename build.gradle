@@ -30,6 +30,7 @@ dependencies {
 
 	//DB
 	implementation 'mysql:mysql-connector-java:8.0.33'
+	implementation 'com.google.firebase:firebase-admin:9.2.0'
 	runtimeOnly 'com.h2database:h2'
 
 	// Spring Security

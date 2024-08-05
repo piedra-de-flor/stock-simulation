@@ -16,7 +16,7 @@ public class BalanceService {
     public long getBalance(String email) {
         long balance = 0;
         Map<String, Integer> trades = accountService.getTrades(email);
-        List<Long> prices = stockService.getStockPriceByName(trades.keySet().stream().toList());
+        List<Long> prices = stockService.getStocksPrice(trades.keySet().stream().toList());
 
         int index = 0;
         for (int quantity : trades.values()) {
