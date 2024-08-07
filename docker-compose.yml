@@ -1,0 +1,22 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: kakao4851?
+      MYSQL_DATABASE: stock-simul
+    ports:
+      - "3305:3306"
+
+  spring-boot-app:
+    image: stock-simulation-0.0.1
+    container_name: spring-boot
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/stock-simul
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: kakao4851?

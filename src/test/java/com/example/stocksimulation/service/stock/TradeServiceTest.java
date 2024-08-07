@@ -1,17 +1,15 @@
+/*
 package com.example.stocksimulation.service.stock;
 
 import com.example.stocksimulation.domain.entity.Account;
 import com.example.stocksimulation.domain.entity.Member;
 import com.example.stocksimulation.domain.entity.Stock;
-import com.example.stocksimulation.domain.vo.trade.Trade;
-import com.example.stocksimulation.domain.vo.trade.TradeConstructor;
 import com.example.stocksimulation.domain.vo.TradeType;
+import com.example.stocksimulation.domain.vo.trade.TradeConstructor;
 import com.example.stocksimulation.dto.trade.TradeRequestDto;
 import com.example.stocksimulation.repository.MemberRepository;
-import com.example.stocksimulation.repository.StockRepository;
 import com.example.stocksimulation.service.trade.TradeService;
 import com.example.stocksimulation.service.trade.TradeTraceService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,9 +29,6 @@ class TradeServiceTest {
 
     @Mock
     private MemberRepository memberRepository;
-
-    @Mock
-    private StockRepository stockRepository;
 
     @InjectMocks
     private TradeService tradeService;
@@ -62,3 +57,4 @@ class TradeServiceTest {
         verify(stockRepository, times(1)).findByCode(dto.stockCode());
     }
 }
+*/

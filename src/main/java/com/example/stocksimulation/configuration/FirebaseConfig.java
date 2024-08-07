@@ -5,11 +5,11 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.File;
 import java.io.FileInputStream;
 
 @Configuration
@@ -21,10 +21,16 @@ public class FirebaseConfig {
     private String databaseName;
 
     @Bean
-    @PostConstruct
     public FirebaseApp init() {
         try {
-            FileInputStream serviceAccount = new FileInputStream("src/main/resources/stock-simul-aeb30-firebase-adminsdk-m68lu-21eeb6e2b2.json");
+            String credentialPath;
+            if (new File("src/main/resources/stock-simul-aeb30-firebase-adminsdk-m68lu-6838ec34fa.json").exists()) {
+                credentialPath = "src/main/resources/stock-simul-aeb30-firebase-adminsdk-m68lu-6838ec34fa.json";
+            } else {
+                credentialPath = "/app/src/main/resources/stock-simul-aeb30-firebase-adminsdk-m68lu-6838ec34fa.json";
+            }
+
+            FileInputStream serviceAccount = new FileInputStream(credentialPath);
             FirebaseOptions options = FirebaseOptions
                     .builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
@@ -32,7 +38,7 @@ public class FirebaseConfig {
                     .build();
             return FirebaseApp.initializeApp(options);
         } catch (Exception e) {
-            throw new IllegalArgumentException("firebase connection file");
+            throw new IllegalArgumentException("Firebase 초기화 중 오류 발생: " + e.getMessage(), e);
         }
     }
 
