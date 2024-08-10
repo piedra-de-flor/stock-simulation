@@ -16,6 +16,7 @@ public enum WebSocketParsingInfo {
             "{\"header\":{\"approval_key\":\"bc6a6dc3-b513-42fb-8fdc-547a87599689\",\"custtype\":\"P\",\"tr_type\":\"1\",\"content-type\":\"utf-8\"},\"body\":{\"input\":{\"tr_id\":\"H0STCNT0\",\"tr_key\":\"066570\"}}}=" +
             "{\"header\":{\"approval_key\":\"bc6a6dc3-b513-42fb-8fdc-547a87599689\",\"custtype\":\"P\",\"tr_type\":\"1\",\"content-type\":\"utf-8\"},\"body\":{\"input\":{\"tr_id\":\"H0STCNT0\",\"tr_key\":\"035720\"}}}=" +
             "{\"header\":{\"approval_key\":\"bc6a6dc3-b513-42fb-8fdc-547a87599689\",\"custtype\":\"P\",\"tr_type\":\"1\",\"content-type\":\"utf-8\"},\"body\":{\"input\":{\"tr_id\":\"H0STCNT0\",\"tr_key\":\"030200\"}}}"),
+    WEB_SOCKET_TEST("{\"header\":{\"approval_key\":\"bc6a6dc3-b513-42fb-8fdc-547a87599689\",\"custtype\":\"P\",\"tr_type\":\"1\",\"content-type\":\"utf-8\"},\"body\":{\"input\":{\"tr_id\":\"H0STCNT0\",\"tr_key\":" + "\"=\"}}}"),
     WEB_SOCKET_CLIENT_URL("ws://ops.koreainvestment.com:21000/tryitout/H0STCNT0"),
     WEB_SOCKET_CLIENT_RESPONSE_SPLITER("\\|"),
     WEB_SOCKET_CLIENT_PRICE_SPLITER("\\^"),

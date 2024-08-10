@@ -17,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
 public class StockService {
     private final WebSocketForBalance socketForBalance;
     private final DatabaseReference databaseReference;
+    int count = 0;
 
     public Stock getStock(String stockCode) {
         Stock stock;
@@ -28,7 +29,8 @@ public class StockService {
                     Stock stock = dataSnapshot.getValue(Stock.class);
                     future.complete(stock);
                 } else {
-                    future.completeExceptionally(new Exception("Stock not found"));
+                    Stock newStock = addStock(stockCode, "test-stock" + count++, 0L);
+                    future.complete(newStock);
                 }
             }
 
@@ -59,6 +61,12 @@ public class StockService {
     public long getStockPrice(String stockCode) {
         Stock stock = getStock(stockCode);
         return stock.getPrice();
+    }
+
+    private Stock addStock(String stockCode, String stockName, long price) {
+        Stock newStock = new Stock(stockCode, price, stockName);
+        databaseReference.child(stockCode).setValueAsync(newStock);
+        return newStock;
     }
 
     public List<Long> getStocksPrice(List<String> stockCodes) {

@@ -19,7 +19,7 @@ public class Stock {
     }
 
     @Builder
-    public Stock(String code, int price, String name) {
+    public Stock(String code, long price, String name) {
         this.code= code;
         this.price = price;
         this.name = name;
