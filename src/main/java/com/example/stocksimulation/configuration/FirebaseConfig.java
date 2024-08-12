@@ -21,10 +21,10 @@ public class FirebaseConfig {
     public FirebaseApp init() {
         try {
             String credentialPath;
-            if (new File("src/main/resources/stock-simul-aeb30-firebase-adminsdk-m68lu-6838ec34fa.json").exists()) {
-                credentialPath = "src/main/resources/stock-simul-aeb30-firebase-adminsdk-m68lu-6838ec34fa.json";
+            if (new File("src/main/resources/stock-simul-aeb30-firebase-adminsdk-m68lu-f889713c75.json").exists()) {
+                credentialPath = "src/main/resources/stock-simul-aeb30-firebase-adminsdk-m68lu-f889713c75.json";
             } else {
-                credentialPath = "/app/src/main/resources/stock-simul-aeb30-firebase-adminsdk-m68lu-6838ec34fa.json";
+                credentialPath = "/app/src/main/resources/stock-simul-aeb30-firebase-adminsdk-m68lu-f889713c75.json";
             }
 
             FileInputStream serviceAccount = new FileInputStream(credentialPath);

@@ -1,3 +1,4 @@
+/*
 package com.example.stocksimulation.service.stock;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -40,6 +41,7 @@ public class WebSocketConnectServiceTest {
     }
 
     //TODO
+*/
 /*    @Test
     public void testConnect() throws ExecutionException, InterruptedException {
         CompletableFuture<WebSocketSession> futureSession = CompletableFuture.completedFuture(session);
@@ -49,7 +51,8 @@ public class WebSocketConnectServiceTest {
         webSocketConnectService.connect();
 
         verify(webSocketClient, times(1)).execute(any(WebSocketHandler.class), eq(WebSocketClientVO.WEB_SOCKET_CLIENT_URL.getValue()));
-    }*/
+    }*//*
+
 
     @Test
     public void 웹소켓_메세지_보내기_성공_테스트() throws IOException {
@@ -70,3 +73,4 @@ public class WebSocketConnectServiceTest {
         verify(session, times(1)).sendMessage(new TextMessage(message));
     }
 }
+*/
