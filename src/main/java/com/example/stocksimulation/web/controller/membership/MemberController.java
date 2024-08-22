@@ -71,4 +71,9 @@ public class MemberController {
         long response = service.delete(memberId);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/jenkins-test")
+    public ResponseEntity<String> jenkins() {
+        return ResponseEntity.ok("jenkins ci/cd number 1");
+    }
 }
