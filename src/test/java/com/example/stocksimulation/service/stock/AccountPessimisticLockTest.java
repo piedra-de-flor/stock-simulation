@@ -2,38 +2,61 @@ package com.example.stocksimulation.service.stock;
 
 import com.example.stocksimulation.domain.entity.Account;
 import com.example.stocksimulation.domain.entity.Member;
+import com.example.stocksimulation.domain.entity.Stock;
 import com.example.stocksimulation.domain.vo.TradeType;
 import com.example.stocksimulation.domain.vo.trade.TradeConstructor;
 import com.example.stocksimulation.dto.trade.TradeRequestDto;
 import com.example.stocksimulation.repository.AccountRepository;
 import com.example.stocksimulation.repository.MemberRepository;
+import com.example.stocksimulation.repository.StockRepository;
+import com.example.stocksimulation.repository.TradeTraceRepository;
 import com.example.stocksimulation.service.trade.TradeService;
-import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.CannotAcquireLockException;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringBootTest
 public class AccountPessimisticLockTest {
+    private final String testCode = "00000";
+    private final long testStockPrice = 10000;
+    private final long testAccountMoney = 1000000;
+    private final int threadCount = 3;
+
     @Autowired
     private TradeService tradeService;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
+    private StockRepository stockRepository;
+
+    @Autowired
+    private TradeTraceRepository tradeTraceRepository;
+
+    private Account account;
+
     @Test
     public void testPessimisticLocking() throws InterruptedException {
-        int threadCount = 2;
         ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
         CountDownLatch latch = new CountDownLatch(threadCount);
 
-        TradeRequestDto dto = new TradeRequestDto("005930", 1);
+        TradeRequestDto dto = new TradeRequestDto(testCode, 1);
 
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {
@@ -57,5 +80,20 @@ public class AccountPessimisticLockTest {
 
         executorService.shutdown();
         executorService.awaitTermination(10, TimeUnit.SECONDS);
+
+        Member member = memberRepository.getMemberByEmail("test@test.com");
+        account = accountRepository.findById(1L).orElseThrow();
+        long actual = account.getMoney();
+
+        assertEquals(testAccountMoney - threadCount * testStockPrice, actual);
+        assertEquals(1, account.getHasTrades().size());
+    }
+
+    @AfterEach
+    public void cleanUp() {
+        tradeTraceRepository.deleteAll();
+        stockRepository.deleteAll();
+        memberRepository.deleteAll();
+        accountRepository.deleteAll();
     }
 }

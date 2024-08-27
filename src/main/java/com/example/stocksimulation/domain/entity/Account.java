@@ -3,10 +3,7 @@ package com.example.stocksimulation.domain.entity;
 import com.example.stocksimulation.domain.vo.trade.Trade;
 import com.example.stocksimulation.domain.vo.ZeroTradeQuantity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.*;
@@ -25,7 +22,7 @@ public class Account {
     @OneToOne(mappedBy = "account")
     private Member member;
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "trades", joinColumns = @JoinColumn(name = "account_id"))
     private List<Trade> trades = new ArrayList<>();
 
