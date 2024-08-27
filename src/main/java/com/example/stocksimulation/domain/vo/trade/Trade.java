@@ -10,12 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Embeddable
-public abstract class Trade {
+public class Trade {
     protected String stockName;
     protected String stockCode;
     protected int quantity;
 
-    public abstract void proceed(Account account, long price);
+    public void proceed(Account account, long price) {
+    }
 
     public void buy(int quantity) {
         this.quantity += quantity;
