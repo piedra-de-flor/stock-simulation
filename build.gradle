@@ -32,6 +32,7 @@ dependencies {
 
 	//DB
 	implementation 'mysql:mysql-connector-java:8.0.33'
+	implementation 'com.google.firebase:firebase-admin:9.2.0'
 	runtimeOnly 'com.h2database:h2'
 
 	// Spring Security
@@ -51,6 +52,10 @@ dependencies {
 	implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
 	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
 	implementation 'org.glassfish:jakarta.el:4.0.2'
+
+	//monitor
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 }
 
 tasks.named('test') {
