@@ -1,6 +1,6 @@
 package com.example.stocksimulation.dto.trade;
 
-import com.example.stocksimulation.domain.entity.TradeTrace;
+import com.example.stocksimulation.domain.entity.stock.TradeTrace;
 
 import java.time.LocalDateTime;
 

@@ -1,17 +1,14 @@
 package com.example.stocksimulation.service.account;
 
-import com.example.stocksimulation.domain.entity.Account;
+import com.example.stocksimulation.domain.entity.stock.Account;
 import com.example.stocksimulation.domain.entity.Member;
-import com.example.stocksimulation.domain.vo.trade.Trade;
 import com.example.stocksimulation.dto.account.AccountInfoDto;
-import com.example.stocksimulation.dto.trade.TradeResponseDto;
 import com.example.stocksimulation.repository.AccountRepository;
 import com.example.stocksimulation.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -21,12 +18,14 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final MemberRepository memberRepository;
 
+    @Transactional
     public AccountInfoDto create(String email) {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(NoSuchElementException::new);
 
         Account account = new Account(member);
         accountRepository.save(account);
+        member.setAccount(account);
         return new AccountInfoDto(member.getNickName(), 0, null);
     }
 

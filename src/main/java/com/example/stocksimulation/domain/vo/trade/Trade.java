@@ -1,9 +1,8 @@
 package com.example.stocksimulation.domain.vo.trade;
 
-import com.example.stocksimulation.domain.entity.Account;
+import com.example.stocksimulation.domain.entity.stock.Account;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

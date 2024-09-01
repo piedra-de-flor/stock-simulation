@@ -1,6 +1,6 @@
 package com.example.stocksimulation.domain.vo.trade;
 
-import com.example.stocksimulation.domain.entity.Account;
+import com.example.stocksimulation.domain.entity.stock.Account;
 
 public class SellTrade extends Trade {
     public SellTrade(String stockName, String stockCode, int quantity) {

@@ -1,5 +1,6 @@
 package com.example.stocksimulation.domain.entity;
 
+import com.example.stocksimulation.domain.entity.stock.Account;
 import com.example.stocksimulation.domain.vo.trade.Trade;
 import com.example.stocksimulation.domain.vo.trade.TradeConstructor;
 import org.junit.jupiter.api.Assertions;

@@ -1,8 +1,8 @@
 package com.example.stocksimulation.service.trade;
 
-import com.example.stocksimulation.domain.entity.Account;
+import com.example.stocksimulation.domain.entity.stock.Account;
 import com.example.stocksimulation.domain.entity.Member;
-import com.example.stocksimulation.domain.entity.Stock;
+import com.example.stocksimulation.domain.entity.stock.Stock;
 import com.example.stocksimulation.domain.vo.TradeType;
 import com.example.stocksimulation.domain.vo.trade.Trade;
 import com.example.stocksimulation.domain.vo.trade.TradeConstructor;
@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TradeService {
     private final TradeTraceService traceService;
     private final MemberRepository memberRepository;
+    private final AccountRepository accountRepository;
     private final StockService stockService;
 
     @Transactional

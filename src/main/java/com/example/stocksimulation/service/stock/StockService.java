@@ -1,6 +1,6 @@
 package com.example.stocksimulation.service.stock;
 
-import com.example.stocksimulation.domain.entity.Stock;
+import com.example.stocksimulation.domain.entity.stock.Stock;
 import com.example.stocksimulation.service.account.WebSocketForBalance;
 import com.google.firebase.database.*;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,9 @@
 package com.example.stocksimulation.service.trade;
 
 import com.example.stocksimulation.domain.entity.*;
+import com.example.stocksimulation.domain.entity.stock.Account;
+import com.example.stocksimulation.domain.entity.stock.Stock;
+import com.example.stocksimulation.domain.entity.stock.TradeTrace;
 import com.example.stocksimulation.domain.vo.TradeType;
 import com.example.stocksimulation.dto.trade.TradeTraceDto;
 import com.example.stocksimulation.repository.MemberRepository;

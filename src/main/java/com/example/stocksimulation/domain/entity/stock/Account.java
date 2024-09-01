@@ -1,5 +1,6 @@
-package com.example.stocksimulation.domain.entity;
+package com.example.stocksimulation.domain.entity.stock;
 
+import com.example.stocksimulation.domain.entity.Member;
 import com.example.stocksimulation.domain.vo.trade.Trade;
 import com.example.stocksimulation.domain.vo.ZeroTradeQuantity;
 import jakarta.persistence.*;
