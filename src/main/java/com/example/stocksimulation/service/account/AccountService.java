@@ -46,4 +46,22 @@ public class AccountService {
         Account account = member.getAccount();
         return account.getHasTrades();
     }
+
+    public boolean deposit(long money, String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(NoSuchElementException::new);
+
+        Account account = member.getAccount();
+        account.deposit(money);
+        return true;
+    }
+
+    public boolean withdraw(long money, String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(NoSuchElementException::new);
+
+        Account account = member.getAccount();
+        account.withdraw(money);
+        return true;
+    }
 }
