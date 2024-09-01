@@ -30,7 +30,7 @@ public class Member implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account account;
 

@@ -32,4 +32,22 @@ public class AccountController {
         AccountInfoDto response = service.readAccount(memberEmail);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("account/deposit")
+    public ResponseEntity<Boolean> deposit(long money) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String memberEmail = authentication.getName();
+
+        boolean response = service.deposit(money, memberEmail);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("account/withdraw")
+    public ResponseEntity<Boolean> withdraw(long money) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String memberEmail = authentication.getName();
+
+        boolean response = service.withdraw(money, memberEmail);
+        return ResponseEntity.ok(response);
+    }
 }

@@ -4,10 +4,7 @@ import com.example.stocksimulation.domain.entity.Member;
 import com.example.stocksimulation.domain.vo.trade.Trade;
 import com.example.stocksimulation.domain.vo.ZeroTradeQuantity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.*;
@@ -26,7 +23,7 @@ public class Account {
     @OneToOne(mappedBy = "account")
     private Member member;
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "trades", joinColumns = @JoinColumn(name = "account_id"))
     private List<Trade> trades = new ArrayList<>();
 
@@ -45,6 +42,18 @@ public class Account {
         sell(trade.getQuantity(), price);
         targetTrade.sell(trade.getQuantity());
         deleteCompletedTradesAsync();
+    }
+
+    public void deposit(long money) {
+        this.money += money;
+    }
+
+    public void withdraw(long money) {
+        if (this.money >= money) {
+            this.money -= money;
+        } else {
+            throw new IllegalArgumentException("not enough money");
+        }
     }
 
     private void addNewTradeOrIncreaseTradeQuantity(Trade newTrade) {
@@ -96,7 +105,7 @@ public class Account {
         Map<String, Integer> hasTrades = new HashMap<>();
 
         for (Trade trade : trades) {
-            hasTrades.put(trade.getStockName(), trade.getQuantity());
+            hasTrades.put(trade.getStockCode(), trade.getQuantity());
         }
 
         return hasTrades;
