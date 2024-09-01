@@ -1,23 +1,19 @@
 package com.example.stocksimulation.service.stock;
 
-import com.example.stocksimulation.domain.entity.Account;
+import com.example.stocksimulation.domain.entity.stock.Account;
 import com.example.stocksimulation.domain.entity.Member;
-import com.example.stocksimulation.domain.entity.Stock;
 import com.example.stocksimulation.domain.vo.TradeType;
 import com.example.stocksimulation.domain.vo.trade.TradeConstructor;
 import com.example.stocksimulation.dto.trade.TradeRequestDto;
 import com.example.stocksimulation.repository.AccountRepository;
 import com.example.stocksimulation.repository.MemberRepository;
-import com.example.stocksimulation.repository.StockRepository;
 import com.example.stocksimulation.repository.TradeTraceRepository;
 import com.example.stocksimulation.service.trade.TradeService;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.CannotAcquireLockException;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 import java.util.concurrent.CountDownLatch;
@@ -42,9 +38,6 @@ public class AccountPessimisticLockTest {
 
     @Autowired
     private MemberRepository memberRepository;
-
-    @Autowired
-    private StockRepository stockRepository;
 
     @Autowired
     private TradeTraceRepository tradeTraceRepository;
@@ -92,7 +85,6 @@ public class AccountPessimisticLockTest {
     @AfterEach
     public void cleanUp() {
         tradeTraceRepository.deleteAll();
-        stockRepository.deleteAll();
         memberRepository.deleteAll();
         accountRepository.deleteAll();
     }
