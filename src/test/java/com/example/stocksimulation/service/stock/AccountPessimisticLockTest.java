@@ -1,7 +1,6 @@
 package com.example.stocksimulation.service.stock;
 
 import com.example.stocksimulation.domain.entity.stock.Account;
-import com.example.stocksimulation.domain.entity.Member;
 import com.example.stocksimulation.domain.vo.TradeType;
 import com.example.stocksimulation.domain.vo.trade.TradeConstructor;
 import com.example.stocksimulation.dto.trade.TradeRequestDto;
@@ -25,10 +24,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class AccountPessimisticLockTest {
-    private final String testCode = "00000";
-    private final long testStockPrice = 10000;
+    private final String testCode = "086790";
+    private final long testStockPrice = 60300;
     private final long testAccountMoney = 1000000;
-    private final int threadCount = 3;
+    private final int threadCount = 10;
 
     @Autowired
     private TradeService tradeService;
@@ -74,7 +73,6 @@ public class AccountPessimisticLockTest {
         executorService.shutdown();
         executorService.awaitTermination(10, TimeUnit.SECONDS);
 
-        Member member = memberRepository.getMemberByEmail("test@test.com");
         account = accountRepository.findById(1L).orElseThrow();
         long actual = account.getMoney();
 

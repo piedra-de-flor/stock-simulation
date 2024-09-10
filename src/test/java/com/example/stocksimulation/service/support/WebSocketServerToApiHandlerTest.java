@@ -34,16 +34,6 @@ class WebSocketServerToApiHandlerTest {
         MockitoAnnotations.openMocks(this);
     }
 
-/*    @Test
-    void 웹소켓_케세지_파싱_테스트() throws IOException {
-        String messagePayload = "0|response|code|TEST^TEST^10000";
-        TextMessage message = new TextMessage(messagePayload);
-
-        when(objectMapper.readValue(message.getPayload(), WebSocketConnectInfo.class)).thenReturn(new WebSocketConnectInfo("msg1", "iv", "key"));
-        webSocketServerToApiHandler.handleTextMessage(session, message);
-
-        verify(stockService, times(1)).updateStockPrice(anyString(), anyInt());
-    }*/
 
     @Test
     void 웹소켓_닫힌후_세션_종료_테스트() {

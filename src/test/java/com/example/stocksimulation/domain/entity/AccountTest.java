@@ -54,7 +54,7 @@ class AccountTest {
         int expectSize = 5;
 
         assertEquals(expectMoney, account.getMoney());
-        assertEquals(expectSize, account.getHasTrades().size());
+        assertEquals(expectSize, account.getHasTrades().get("testCode"));
     }
 
     @Test
