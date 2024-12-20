@@ -29,7 +29,7 @@ public class TradeController {
     @PostMapping("/sell")
     public ResponseEntity<Boolean> sell(@RequestBody TradeRequestDto dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-       String memberEmail = authentication.getName();
+        String memberEmail = authentication.getName();
 
         boolean response = service.trade(memberEmail, dto, TradeConstructor.SELL, TradeType.SELL);
         return ResponseEntity.ok(response);

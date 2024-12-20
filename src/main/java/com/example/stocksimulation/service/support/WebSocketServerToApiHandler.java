@@ -1,8 +1,9 @@
 package com.example.stocksimulation.service.support;
 
+import com.example.stocksimulation.domain.vo.WebSocketConnectInfo;
 import com.example.stocksimulation.domain.vo.WebSocketIndexNumber;
 import com.example.stocksimulation.domain.vo.WebSocketParsingInfo;
-import com.example.stocksimulation.domain.vo.WebSocketConnectInfo;
+import com.example.stocksimulation.service.stock.StockHistoryService;
 import com.example.stocksimulation.service.stock.StockService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -25,6 +26,7 @@ import java.io.IOException;
 public class WebSocketServerToApiHandler extends TextWebSocketHandler {
     private final StockService service;
     private final TaskScheduler taskScheduler = new SimpleAsyncTaskScheduler();
+    private final StockHistoryService stockHistoryService;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private WebSocketConnectInfo connectedVO;
     private WebSocketSession session;
@@ -39,6 +41,7 @@ public class WebSocketServerToApiHandler extends TextWebSocketHandler {
             String price = response[WebSocketIndexNumber.INDEX_OF_PRICE.getValue()];
 
             service.updateStockPrice(code, Integer.parseInt(price));
+            stockHistoryService.saveStockHistory(code, Integer.parseInt(price));
         } else if (message.getPayload().contains("SUBSCRIBE SUCCESS")) {
             connectedVO = objectMapper.readValue(message.getPayload(), WebSocketConnectInfo.class);
             JsonNode jsonNode = objectMapper.readTree(message.getPayload());

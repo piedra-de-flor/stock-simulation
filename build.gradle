@@ -56,6 +56,9 @@ dependencies {
 	//monitor
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+
+	//influx
+	implementation "com.influxdb:influxdb-client-java:6.6.0"
 }
 
 tasks.named('test') {
