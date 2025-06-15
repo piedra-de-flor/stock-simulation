@@ -50,19 +50,19 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberUpdateDto update(MemberUpdateDto updateDto) {
-        Member member = repository.findById(updateDto.memberId())
+    public MemberUpdateDto update(MemberUpdateDto updateDto, String email) {
+        Member member = repository.findByEmail(email)
                 .orElseThrow(NoSuchElementException::new);
 
         member.update(updateDto.nickName(), updateDto.password());
         return updateDto;
     }
 
-    public Long delete(long memberId) {
-        Member target = repository.findById(memberId)
+    public String delete(String email) {
+        Member target = repository.findByEmail(email)
                 .orElseThrow(NoSuchElementException::new);
 
         repository.delete(target);
-        return memberId;
+        return email;
     }
 }

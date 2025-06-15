@@ -1,5 +1,6 @@
 package com.example.stocksimulation.domain.entity;
 
+import com.example.stocksimulation.domain.entity.stock.Account;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -29,8 +30,9 @@ public class Member implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
-    @OneToMany
-    private List<Account> accounts = new ArrayList<>();
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     @Builder
     public Member(String name, String email, String password, List<String> roles) {
@@ -48,6 +50,10 @@ public class Member implements UserDetails {
         if (password != null) {
             this.password = password;
         }
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override

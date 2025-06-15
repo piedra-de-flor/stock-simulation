@@ -11,15 +11,15 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
-    private final WebSocketHandler webSocketHandler;
+    private final WebSocketHandler balanceHandler;
 
     @Autowired
-    public WebSocketConfig(@Qualifier("clientToServerHandler") WebSocketHandler webSocketHandler) {
-        this.webSocketHandler = webSocketHandler;
+    public WebSocketConfig(@Qualifier("balanceWebSocketHandler") WebSocketHandler balanceHandler) {
+        this.balanceHandler = balanceHandler;
     }
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketHandler, "/stocks-info").setAllowedOrigins("*");
+        registry.addHandler(balanceHandler, "/balance").setAllowedOrigins("*");
     }
 }

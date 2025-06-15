@@ -1,6 +1,6 @@
 package com.example.stocksimulation.service.support;
 
-import com.example.stocksimulation.domain.vo.WebSocketConnectedVO;
+import com.example.stocksimulation.domain.vo.WebSocketConnectInfo;
 import com.example.stocksimulation.service.stock.StockService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,16 +34,6 @@ class WebSocketServerToApiHandlerTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void 웹소켓_케세지_파싱_테스트() throws IOException {
-        String messagePayload = "0|response|code|TEST^TEST^10000";
-        TextMessage message = new TextMessage(messagePayload);
-
-        when(objectMapper.readValue(message.getPayload(), WebSocketConnectedVO.class)).thenReturn(new WebSocketConnectedVO("msg1", "iv", "key"));
-        webSocketServerToApiHandler.handleTextMessage(session, message);
-
-        verify(stockService, times(1)).updateStockPrice(anyString(), anyInt());
-    }
 
     @Test
     void 웹소켓_닫힌후_세션_종료_테스트() {

@@ -1,7 +1,5 @@
-package com.example.stocksimulation.domain.entity;
+package com.example.stocksimulation.domain.entity.stock;
 
-import com.example.stocksimulation.dto.stock.StockDto;
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Entity
 public class Stock {
     @Id
     private String code;
@@ -19,10 +16,6 @@ public class Stock {
 
     public void updatePrice(long price) {
         this.price = price;
-    }
-
-    public StockDto toDto() {
-        return new StockDto(code, price, name);
     }
 
     @Builder

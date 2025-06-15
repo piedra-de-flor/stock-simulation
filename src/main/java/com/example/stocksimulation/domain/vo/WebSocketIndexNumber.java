@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum WebSocketClientNumberVO {
+public enum WebSocketIndexNumber {
     INDEX_OF_RESPONSE(3),
     INDEX_OF_CODE(0),
     INDEX_OF_PRICE(2);
