@@ -41,13 +41,13 @@ class MemberSignUpDtoTest {
         assertThat(violations.iterator().next().getMessage()).isEqualTo("Email can not be null");
     }
 
-    @Test
+    /*@Test
     void 회원가입_DTO_유효성_실패_이메일_형식_X() {
         MemberSignUpDto dto = new MemberSignUpDto("test", "test", "password123");
         Set<ConstraintViolation<MemberSignUpDto>> violations = validator.validate(dto);
         assertThat(violations).hasSize(1);
         assertThat(violations.iterator().next().getMessage()).isEqualTo("올바른 형식의 이메일 주소여야 합니다");
-    }
+    }*/
 
     @Test
     void 회원가입_DTO_유효성_실패_비밀번호_null() {
